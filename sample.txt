@@ -1,0 +1,1138 @@
+Initialized native services in: /Users/manasa.av/.gradle/native
+Initialized jansi services in: /Users/manasa.av/.gradle/native
+Received JVM installation metadata from '/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home': {JAVA_HOME=/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home, JAVA_VERSION=17.0.18, JAVA_VENDOR=Homebrew, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.18+0, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.18+0, VM_VENDOR=Homebrew, OS_ARCH=aarch64}
+Found daemon DaemonInfo{pid=72349, address=[0ab75b5b-43b2-4db5-ad87-b07a348fb550 port:52785, addresses:[/127.0.0.1]], state=Idle, lastBusy=1772033595082, context=DefaultDaemonContext[uid=684e6f0c-13c7-47b7-a0a6-0251b7730608,javaHome=/nix/store/g8krfcr1l5fwl8xs44nm6m6rb2gsvg8q-zulu16.28.11-ca-jdk-16.0.0/zulu-16.jdk/Contents/Home,javaVersion=16,daemonRegistryDir=/Users/manasa.av/.gradle/daemon,pid=72349,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=512m,-XX:+HeapDumpOnOutOfMemoryError,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED,--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2g,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=512m, -XX:+HeapDumpOnOutOfMemoryError, --add-opens=java.base/java.util=ALL-UNNAMED, --add-opens=java.base/java.lang=ALL-UNNAMED, --add-opens=java.base/java.lang.invoke=ALL-UNNAMED, --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED, --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED, --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED, --add-opens=java.base/java.nio.charset=ALL-UNNAMED, --add-opens=java.base/java.net=ALL-UNNAMED, --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED, -Xmx2g, -Dfile.encoding=UTF-8, -Duser.country=IN, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=684e6f0c-13c7-47b7-a0a6-0251b7730608,javaHome=/nix/store/g8krfcr1l5fwl8xs44nm6m6rb2gsvg8q-zulu16.28.11-ca-jdk-16.0.0/zulu-16.jdk/Contents/Home,javaVersion=16,daemonRegistryDir=/Users/manasa.av/.gradle/daemon,pid=72349,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=512m,-XX:+HeapDumpOnOutOfMemoryError,--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED,--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx2g,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 67048). The daemon log file: /Users/manasa.av/.gradle/daemon/8.9/daemon-67048.out.log
+Starting 23rd build in daemon [uptime: 35 mins 16.15 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 2 GiB, non-heap usage: 43% of 512 MiB]
+Using 14 worker leases.
+Now considering [/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors11948950514832129651, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors1830837214118446038, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors11782797567572797109, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors17041472362684272074] as hierarchies to watch
+Now considering [/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors11948950514832129651, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors1830837214118446038, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors11782797567572797109, /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors17041472362684272074] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/settings.gradle.kts'.
+Projects loaded. Root project using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/build.gradle'.
+Included projects: [root project 'automation-framework', project ':api-load-tests', project ':api-system-tests', project ':browser-system-tests', project ':gomotive-automation-framework', project ':gomotive-performance-tests', project ':gomotive-system-tests', project ':heremaps-validation', project ':kt.protos', project ':testing.api', project ':testing.browser', project ':testing.core']
+
+> Configure project :buildSrc
+Evaluating project ':buildSrc' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/build.gradle.kts'.
+Transforming gradle-kotlin-dsl-plugins-4.4.0.jar (org.gradle.kotlin:gradle-kotlin-dsl-plugins:4.4.0) with InstrumentationAnalysisTransform
+Transforming kotlin-stdlib-1.9.23.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.23) with InstrumentationAnalysisTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with InstrumentationAnalysisTransform
+Transforming kotlin-sam-with-receiver-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-sam-with-receiver:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-assignment-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-assignment:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-proto-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-klib-commonizer-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-klib-commonizer-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-native-utils-1.9.23.jar (org.jetbrains.kotlin:kotlin-native-utils:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-util-klib-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-klib:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-build-tools-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-build-tools-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-android-extensions-1.9.23.jar (org.jetbrains.kotlin:kotlin-android-extensions:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-compiler-runner-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-runner:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-compiler-impl-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-annotations-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-annotations:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-project-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-project-model:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-tooling-core-1.9.23.jar (org.jetbrains.kotlin:kotlin-tooling-core:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-util-io-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-io:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-daemon-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming trove4j-1.0.20200330.jar (org.jetbrains.intellij.deps:trove4j:1.0.20200330) with InstrumentationAnalysisTransform
+Transforming kotlin-daemon-client-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-client:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlinx-coroutines-core-jvm-1.5.0.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-jvm-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-common-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-common:1.9.23) with InstrumentationAnalysisTransform
+Transforming gradle-kotlin-dsl-plugins-4.4.0.jar (org.gradle.kotlin:gradle-kotlin-dsl-plugins:4.4.0) with InstrumentationAnalysisTransform
+Transforming gradle-kotlin-dsl-plugins-4.4.0.jar (org.gradle.kotlin:gradle-kotlin-dsl-plugins:4.4.0) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-stdlib-1.9.23.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-stdlib-1.9.23.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming gradle-kotlin-dsl-plugins-4.4.0.jar (org.gradle.kotlin:gradle-kotlin-dsl-plugins:4.4.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with InstrumentationAnalysisTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-stdlib-1.9.23.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-sam-with-receiver-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-sam-with-receiver:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-sam-with-receiver-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-sam-with-receiver:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming annotations-13.0.jar (org.jetbrains:annotations:13.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-assignment-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-assignment:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-assignment-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-assignment:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-sam-with-receiver-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-sam-with-receiver:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-assignment-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-assignment:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-api-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-api-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-proto-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-proto-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-1.9.23-gradle82.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-gradle-plugin-idea-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-proto-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-klib-commonizer-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-klib-commonizer-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-klib-commonizer-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-klib-commonizer-api:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-idea-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-idea:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-native-utils-1.9.23.jar (org.jetbrains.kotlin:kotlin-native-utils:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-native-utils-1.9.23.jar (org.jetbrains.kotlin:kotlin-native-utils:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-klib-commonizer-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-klib-commonizer-api:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-util-klib-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-klib:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-util-klib-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-klib:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-native-utils-1.9.23.jar (org.jetbrains.kotlin:kotlin-native-utils:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-build-tools-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-build-tools-api:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-build-tools-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-build-tools-api:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-android-extensions-1.9.23.jar (org.jetbrains.kotlin:kotlin-android-extensions:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-android-extensions-1.9.23.jar (org.jetbrains.kotlin:kotlin-android-extensions:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-util-klib-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-klib:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-build-tools-api-1.9.23.jar (org.jetbrains.kotlin:kotlin-build-tools-api:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-android-extensions-1.9.23.jar (org.jetbrains.kotlin:kotlin-android-extensions:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-compiler-runner-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-runner:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-compiler-runner-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-runner:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-scripting-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-compiler-runner-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-runner:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-compiler-impl-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-compiler-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-compiler-impl-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-annotations-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-annotations:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-annotations-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-annotations:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-scripting-compiler-impl-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-project-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-project-model:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-gradle-plugin-annotations-1.9.23.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-annotations:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-project-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-project-model:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-tooling-core-1.9.23.jar (org.jetbrains.kotlin:kotlin-tooling-core:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-project-model-1.9.23.jar (org.jetbrains.kotlin:kotlin-project-model:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-tooling-core-1.9.23.jar (org.jetbrains.kotlin:kotlin-tooling-core:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-util-io-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-io:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-util-io-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-io:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-tooling-core-1.9.23.jar (org.jetbrains.kotlin:kotlin-tooling-core:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-daemon-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-embeddable:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-util-io-1.9.23.jar (org.jetbrains.kotlin:kotlin-util-io:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-daemon-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-embeddable:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming trove4j-1.0.20200330.jar (org.jetbrains.intellij.deps:trove4j:1.0.20200330) with InstrumentationAnalysisTransform
+Transforming trove4j-1.0.20200330.jar (org.jetbrains.intellij.deps:trove4j:1.0.20200330) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-daemon-client-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-client:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-daemon-client-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-client:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlinx-coroutines-core-jvm-1.5.0.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0) with InstrumentationAnalysisTransform
+Transforming kotlin-daemon-embeddable-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-embeddable:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlinx-coroutines-core-jvm-1.5.0.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0) with MergeInstrumentationAnalysisTransform
+Transforming trove4j-1.0.20200330.jar (org.jetbrains.intellij.deps:trove4j:1.0.20200330) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-jvm-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlinx-coroutines-core-jvm-1.5.0.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-daemon-client-1.9.23.jar (org.jetbrains.kotlin:kotlin-daemon-client:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-jvm-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-scripting-common-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-common:1.9.23) with InstrumentationAnalysisTransform
+Transforming kotlin-scripting-common-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-common:1.9.23) with MergeInstrumentationAnalysisTransform
+Transforming kotlin-scripting-jvm-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Transforming kotlin-scripting-common-1.9.23.jar (org.jetbrains.kotlin:kotlin-scripting-common:1.9.23) with ExternalDependencyInstrumentingArtifactTransform
+Using Kotlin Gradle Plugin gradle82 variant
+kotlin scripting plugin: created the scripting discovery configuration: kotlinScriptDef
+kotlin scripting plugin: created the scripting discovery configuration: testKotlinScriptDef
+file or directory '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/buildSrc/src/main/java', not found
+Resolve mutations for :buildSrc:checkKotlinGradlePluginConfigurationErrors (Thread[Execution worker,5,main]) started.
+:buildSrc:checkKotlinGradlePluginConfigurationErrors (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:checkKotlinGradlePluginConfigurationErrors
+Caching disabled for task ':buildSrc:checkKotlinGradlePluginConfigurationErrors' because:
+  Build cache is disabled
+Task ':buildSrc:checkKotlinGradlePluginConfigurationErrors' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Resolve mutations for :buildSrc:generateExternalPluginSpecBuilders (Thread[Execution worker,5,main]) started.
+:buildSrc:generateExternalPluginSpecBuilders (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:generateExternalPluginSpecBuilders UP-TO-DATE
+Caching disabled for task ':buildSrc:generateExternalPluginSpecBuilders' because:
+  Build cache is disabled
+Skipping task ':buildSrc:generateExternalPluginSpecBuilders' as it is up-to-date.
+Resolve mutations for :buildSrc:extractPrecompiledScriptPluginPlugins (Thread[Execution worker,5,main]) started.
+:buildSrc:extractPrecompiledScriptPluginPlugins (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+Caching disabled for task ':buildSrc:extractPrecompiledScriptPluginPlugins' because:
+  Build cache is disabled
+Skipping task ':buildSrc:extractPrecompiledScriptPluginPlugins' as it is up-to-date.
+Resolve mutations for :buildSrc:compilePluginsBlocks (Thread[Execution worker,5,main]) started.
+:buildSrc:compilePluginsBlocks (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:compilePluginsBlocks UP-TO-DATE
+Caching disabled for task ':buildSrc:compilePluginsBlocks' because:
+  Build cache is disabled
+Skipping task ':buildSrc:compilePluginsBlocks' as it is up-to-date.
+Resolve mutations for :buildSrc:generatePrecompiledScriptPluginAccessors (Thread[Execution worker,5,main]) started.
+:buildSrc:generatePrecompiledScriptPluginAccessors (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+Caching disabled for task ':buildSrc:generatePrecompiledScriptPluginAccessors' because:
+  Build cache is disabled
+Skipping task ':buildSrc:generatePrecompiledScriptPluginAccessors' as it is up-to-date.
+Resolve mutations for :buildSrc:generateScriptPluginAdapters (Thread[Execution worker,5,main]) started.
+:buildSrc:generateScriptPluginAdapters (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:generateScriptPluginAdapters UP-TO-DATE
+Caching disabled for task ':buildSrc:generateScriptPluginAdapters' because:
+  Build cache is disabled
+Skipping task ':buildSrc:generateScriptPluginAdapters' as it is up-to-date.
+Resolve mutations for :buildSrc:compileKotlin (Thread[Execution worker,5,main]) started.
+:buildSrc:compileKotlin (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:compileKotlin UP-TO-DATE
+Transforming gradle-api-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-ant-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-astbuilder-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-console-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-datetime-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-dateutil-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-groovydoc-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-json-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-nio-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-sql-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-templates-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-test-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming groovy-xml-3.0.21.jar with ClasspathEntrySnapshotTransform
+Transforming javaparser-core-3.17.0.jar with ClasspathEntrySnapshotTransform
+Transforming kotlin-reflect-1.9.23.jar with ClasspathEntrySnapshotTransform
+Transforming kotlin-stdlib-1.9.23.jar with ClasspathEntrySnapshotTransform
+Transforming gradle-installation-beacon-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming gradle-kotlin-dsl-extensions-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming gradle-kotlin-dsl-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming gradle-kotlin-dsl-shared-runtime-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming gradle-kotlin-dsl-tooling-models-8.9.jar with ClasspathEntrySnapshotTransform
+Transforming kotlin-reflect-1.9.23.jar with ClasspathEntrySnapshotTransform
+Transforming kotlin-stdlib-1.9.23.jar with ClasspathEntrySnapshotTransform
+Transforming jackson-core-2.13.5.jar with ClasspathEntrySnapshotTransform
+Transforming jackson-annotations-2.13.5.jar with ClasspathEntrySnapshotTransform
+Transforming jackson-databind-2.13.5.jar with ClasspathEntrySnapshotTransform
+Transforming annotations-13.0.jar with ClasspathEntrySnapshotTransform
+Custom actions are attached to task ':buildSrc:compileKotlin'.
+Caching disabled for task ':buildSrc:compileKotlin' because:
+  Build cache is disabled
+Skipping task ':buildSrc:compileKotlin' as it is up-to-date.
+Resolve mutations for :buildSrc:compileJava (Thread[Execution worker,5,main]) started.
+:buildSrc:compileJava (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:compileJava NO-SOURCE
+Skipping task ':buildSrc:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :buildSrc:compileGroovy (Thread[Execution worker,5,main]) started.
+:buildSrc:compileGroovy (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:compileGroovy NO-SOURCE
+Skipping task ':buildSrc:compileGroovy' as it has no source files and no previous output files.
+Resolve mutations for :buildSrc:pluginDescriptors (Thread[Execution worker,5,main]) started.
+:buildSrc:pluginDescriptors (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+Caching disabled for task ':buildSrc:pluginDescriptors' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':buildSrc:pluginDescriptors' as it is up-to-date.
+Resolve mutations for :buildSrc:processResources (Thread[Execution worker,5,main]) started.
+:buildSrc:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:processResources UP-TO-DATE
+Caching disabled for task ':buildSrc:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':buildSrc:processResources' as it is up-to-date.
+Resolve mutations for :buildSrc:classes (Thread[Execution worker,5,main]) started.
+:buildSrc:classes (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:classes UP-TO-DATE
+Skipping task ':buildSrc:classes' as it has no actions.
+Resolve mutations for :buildSrc:jar (Thread[Execution worker,5,main]) started.
+:buildSrc:jar (Thread[Execution worker,5,main]) started.
+
+> Task :buildSrc:jar UP-TO-DATE
+Caching disabled for task ':buildSrc:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':buildSrc:jar' as it is up-to-date.
+Transforming jackson-core-2.13.5.jar (com.fasterxml.jackson.core:jackson-core:2.13.5) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.13.5.jar (com.fasterxml.jackson.core:jackson-annotations:2.13.5) with InstrumentationAnalysisTransform
+Transforming jackson-databind-2.13.5.jar (com.fasterxml.jackson.core:jackson-databind:2.13.5) with InstrumentationAnalysisTransform
+Transforming main (project :buildSrc) with InstrumentationAnalysisTransform
+Transforming main (project :buildSrc) with InstrumentationAnalysisTransform
+Transforming main (project :buildSrc) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.13.5.jar (com.fasterxml.jackson.core:jackson-core:2.13.5) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.13.5.jar (com.fasterxml.jackson.core:jackson-core:2.13.5) with MergeInstrumentationAnalysisTransform
+Transforming jackson-annotations-2.13.5.jar (com.fasterxml.jackson.core:jackson-annotations:2.13.5) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.13.5.jar (com.fasterxml.jackson.core:jackson-annotations:2.13.5) with MergeInstrumentationAnalysisTransform
+Transforming jackson-core-2.13.5.jar (com.fasterxml.jackson.core:jackson-core:2.13.5) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-databind-2.13.5.jar (com.fasterxml.jackson.core:jackson-databind:2.13.5) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.13.5.jar (com.fasterxml.jackson.core:jackson-annotations:2.13.5) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-databind-2.13.5.jar (com.fasterxml.jackson.core:jackson-databind:2.13.5) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.13.5.jar (com.fasterxml.jackson.core:jackson-databind:2.13.5) with ExternalDependencyInstrumentingArtifactTransform
+Transforming buildSrc.jar (project :buildSrc) with ProjectDependencyInstrumentingArtifactTransform
+
+> Configure project :
+Evaluating root project 'automation-framework' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/build.gradle'.
+
+> Configure project :api-load-tests
+Evaluating project ':api-load-tests' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-performance-tests/api-load-tests/build.gradle.kts'.
+Transforming gatling-gradle-plugin-3.9.2.jar (gradle.plugin.io.gatling.gradle:gatling-gradle-plugin:3.9.2) with InstrumentationAnalysisTransform
+Transforming gatling-enterprise-plugin-commons-1.5.1.jar (io.gatling:gatling-enterprise-plugin-commons:1.5.1) with InstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with InstrumentationAnalysisTransform
+Transforming gatling-scanner-1.1.2.jar (io.gatling:gatling-scanner:1.1.2) with InstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with InstrumentationAnalysisTransform
+Transforming gatling-asm-shaded-9.4.jar (io.gatling:gatling-asm-shaded:9.4) with InstrumentationAnalysisTransform
+Transforming gatling-gradle-plugin-3.9.2.jar (gradle.plugin.io.gatling.gradle:gatling-gradle-plugin:3.9.2) with InstrumentationAnalysisTransform
+Transforming gatling-gradle-plugin-3.9.2.jar (gradle.plugin.io.gatling.gradle:gatling-gradle-plugin:3.9.2) with MergeInstrumentationAnalysisTransform
+Transforming gatling-enterprise-plugin-commons-1.5.1.jar (io.gatling:gatling-enterprise-plugin-commons:1.5.1) with InstrumentationAnalysisTransform
+Transforming gatling-enterprise-plugin-commons-1.5.1.jar (io.gatling:gatling-enterprise-plugin-commons:1.5.1) with MergeInstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with InstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with MergeInstrumentationAnalysisTransform
+Transforming gatling-gradle-plugin-3.9.2.jar (gradle.plugin.io.gatling.gradle:gatling-gradle-plugin:3.9.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with InstrumentationAnalysisTransform
+Transforming gatling-enterprise-plugin-commons-1.5.1.jar (io.gatling:gatling-enterprise-plugin-commons:1.5.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming gatling-scanner-1.1.2.jar (io.gatling:gatling-scanner:1.1.2) with InstrumentationAnalysisTransform
+Transforming gatling-scanner-1.1.2.jar (io.gatling:gatling-scanner:1.1.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with InstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with MergeInstrumentationAnalysisTransform
+Transforming gatling-scanner-1.1.2.jar (io.gatling:gatling-scanner:1.1.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming gatling-asm-shaded-9.4.jar (io.gatling:gatling-asm-shaded:9.4) with InstrumentationAnalysisTransform
+Transforming gatling-asm-shaded-9.4.jar (io.gatling:gatling-asm-shaded:9.4) with MergeInstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming gatling-asm-shaded-9.4.jar (io.gatling:gatling-asm-shaded:9.4) with ExternalDependencyInstrumentingArtifactTransform
+
+> Configure project :api-system-tests
+Evaluating project ':api-system-tests' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build.gradle.kts'.
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+
+> Configure project :browser-system-tests
+Evaluating project ':browser-system-tests' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/browser-system-tests/build.gradle.kts'.
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-plugin-2.11.2.jar (io.qameta.allure.gradle.allure:allure-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-adapter-plugin-2.11.2.jar (io.qameta.allure.gradle.adapter:allure-adapter-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with InstrumentationAnalysisTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with MergeInstrumentationAnalysisTransform
+Transforming allure-report-plugin-2.11.2.jar (io.qameta.allure.gradle.report:allure-report-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming allure-base-plugin-2.11.2.jar (io.qameta.allure.gradle.base:allure-base-plugin:2.11.2) with ExternalDependencyInstrumentingArtifactTransform
+
+> Configure project :gomotive-automation-framework
+Evaluating project ':gomotive-automation-framework' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/build.gradle'.
+
+> Configure project :gomotive-performance-tests
+Evaluating project ':gomotive-performance-tests' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-performance-tests/build.gradle'.
+
+> Configure project :gomotive-system-tests
+Evaluating project ':gomotive-system-tests' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/build.gradle'.
+
+> Configure project :heremaps-validation
+Evaluating project ':heremaps-validation' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/tools/heremaps-validation/build.gradle.kts'.
+Transforming shadow-7.1.2.jar (gradle.plugin.com.github.johnrengelman:shadow:7.1.2) with InstrumentationAnalysisTransform
+Transforming log4j-core-2.17.1.jar (org.apache.logging.log4j:log4j-core:2.17.1) with InstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with InstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with InstrumentationAnalysisTransform
+Transforming jdom2-2.0.6.jar (org.jdom:jdom2:2.0.6) with InstrumentationAnalysisTransform
+Transforming asm-commons-9.2.jar (org.ow2.asm:asm-commons:9.2) with InstrumentationAnalysisTransform
+Transforming asm-analysis-9.2.jar (org.ow2.asm:asm-analysis:9.2) with InstrumentationAnalysisTransform
+Transforming asm-tree-9.2.jar (org.ow2.asm:asm-tree:9.2) with InstrumentationAnalysisTransform
+Transforming asm-9.2.jar (org.ow2.asm:asm:9.2) with InstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with InstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with InstrumentationAnalysisTransform
+Transforming plexus-utils-3.4.1.jar (org.codehaus.plexus:plexus-utils:3.4.1) with InstrumentationAnalysisTransform
+Transforming jdependency-2.7.0.jar (org.vafer:jdependency:2.7.0) with InstrumentationAnalysisTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with InstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with InstrumentationAnalysisTransform
+Transforming log4j-api-2.17.1.jar (org.apache.logging.log4j:log4j-api:2.17.1) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming shadow-7.1.2.jar (gradle.plugin.com.github.johnrengelman:shadow:7.1.2) with InstrumentationAnalysisTransform
+Transforming shadow-7.1.2.jar (gradle.plugin.com.github.johnrengelman:shadow:7.1.2) with MergeInstrumentationAnalysisTransform
+Transforming log4j-core-2.17.1.jar (org.apache.logging.log4j:log4j-core:2.17.1) with InstrumentationAnalysisTransform
+Transforming log4j-core-2.17.1.jar (org.apache.logging.log4j:log4j-core:2.17.1) with MergeInstrumentationAnalysisTransform
+Transforming shadow-7.1.2.jar (gradle.plugin.com.github.johnrengelman:shadow:7.1.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with InstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with MergeInstrumentationAnalysisTransform
+Transforming log4j-core-2.17.1.jar (org.apache.logging.log4j:log4j-core:2.17.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with InstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with MergeInstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jdom2-2.0.6.jar (org.jdom:jdom2:2.0.6) with InstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jdom2-2.0.6.jar (org.jdom:jdom2:2.0.6) with MergeInstrumentationAnalysisTransform
+Transforming asm-commons-9.2.jar (org.ow2.asm:asm-commons:9.2) with InstrumentationAnalysisTransform
+Transforming asm-commons-9.2.jar (org.ow2.asm:asm-commons:9.2) with MergeInstrumentationAnalysisTransform
+Transforming jdom2-2.0.6.jar (org.jdom:jdom2:2.0.6) with ExternalDependencyInstrumentingArtifactTransform
+Transforming asm-analysis-9.2.jar (org.ow2.asm:asm-analysis:9.2) with InstrumentationAnalysisTransform
+Transforming asm-analysis-9.2.jar (org.ow2.asm:asm-analysis:9.2) with MergeInstrumentationAnalysisTransform
+Transforming asm-commons-9.2.jar (org.ow2.asm:asm-commons:9.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming asm-tree-9.2.jar (org.ow2.asm:asm-tree:9.2) with InstrumentationAnalysisTransform
+Transforming asm-tree-9.2.jar (org.ow2.asm:asm-tree:9.2) with MergeInstrumentationAnalysisTransform
+Transforming asm-analysis-9.2.jar (org.ow2.asm:asm-analysis:9.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming asm-9.2.jar (org.ow2.asm:asm:9.2) with InstrumentationAnalysisTransform
+Transforming asm-9.2.jar (org.ow2.asm:asm:9.2) with MergeInstrumentationAnalysisTransform
+Transforming asm-tree-9.2.jar (org.ow2.asm:asm-tree:9.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with InstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with MergeInstrumentationAnalysisTransform
+Transforming asm-9.2.jar (org.ow2.asm:asm:9.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with InstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with MergeInstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming plexus-utils-3.4.1.jar (org.codehaus.plexus:plexus-utils:3.4.1) with InstrumentationAnalysisTransform
+Transforming ant-1.10.11.jar (org.apache.ant:ant:1.10.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming plexus-utils-3.4.1.jar (org.codehaus.plexus:plexus-utils:3.4.1) with MergeInstrumentationAnalysisTransform
+Transforming jdependency-2.7.0.jar (org.vafer:jdependency:2.7.0) with InstrumentationAnalysisTransform
+Transforming jdependency-2.7.0.jar (org.vafer:jdependency:2.7.0) with MergeInstrumentationAnalysisTransform
+Transforming plexus-utils-3.4.1.jar (org.codehaus.plexus:plexus-utils:3.4.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with InstrumentationAnalysisTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with MergeInstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with InstrumentationAnalysisTransform
+Transforming jdependency-2.7.0.jar (org.vafer:jdependency:2.7.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with MergeInstrumentationAnalysisTransform
+Transforming log4j-api-2.17.1.jar (org.apache.logging.log4j:log4j-api:2.17.1) with InstrumentationAnalysisTransform
+Transforming log4j-api-2.17.1.jar (org.apache.logging.log4j:log4j-api:2.17.1) with MergeInstrumentationAnalysisTransform
+Transforming ant-launcher-1.10.11.jar (org.apache.ant:ant-launcher:1.10.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with MergeInstrumentationAnalysisTransform
+Transforming log4j-api-2.17.1.jar (org.apache.logging.log4j:log4j-api:2.17.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with ExternalDependencyInstrumentingArtifactTransform
+The com.google.protobuf plugin was already applied to the project: :heremaps-validation and will not be applied again after plugin: java-library
+------------------------------------------------------------------------
+Detecting the operating system and CPU architecture
+------------------------------------------------------------------------
+os.detected.name=osx
+os.detected.arch=aarch_64
+os.detected.bitness=64
+os.detected.version=15.7
+os.detected.version.major=15
+os.detected.version.minor=7
+os.detected.classifier=osx-aarch_64
+
+> Configure project :kt.protos
+Evaluating project ':kt.protos' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/protos/build.gradle.kts'.
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with InstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with InstrumentationAnalysisTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with InstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with MergeInstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with InstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with MergeInstrumentationAnalysisTransform
+Transforming protobuf-gradle-plugin-0.9.4.jar (com.google.protobuf:protobuf-gradle-plugin:0.9.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with InstrumentationAnalysisTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with MergeInstrumentationAnalysisTransform
+Transforming osdetector-gradle-plugin-1.7.3.jar (com.google.gradle:osdetector-gradle-plugin:1.7.3) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with MergeInstrumentationAnalysisTransform
+Transforming os-maven-plugin-1.7.1.jar (kr.motd.maven:os-maven-plugin:1.7.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with ExternalDependencyInstrumentingArtifactTransform
+The com.google.protobuf plugin was already applied to the project: :kt.protos and will not be applied again after plugin: java-library
+------------------------------------------------------------------------
+Detecting the operating system and CPU architecture
+------------------------------------------------------------------------
+os.detected.name=osx
+os.detected.arch=aarch_64
+os.detected.bitness=64
+os.detected.version=15.7
+os.detected.version.major=15
+os.detected.version.minor=7
+os.detected.classifier=osx-aarch_64
+
+> Configure project :testing.api
+Evaluating project ':testing.api' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/api/build.gradle.kts'.
+
+> Configure project :testing.browser
+Evaluating project ':testing.browser' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/browser/build.gradle.kts'.
+
+> Configure project :testing.core
+Evaluating project ':testing.core' using build file '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/core/build.gradle.kts'.
+All projects evaluated.
+Task path 'api-system-tests:test' matched project ':api-system-tests'
+Task name matched 'test'
+Running smoke tests in single process
+Selected primary task 'test' from project :api-system-tests
+Tasks to be executed: [task ':kt.protos:extractIncludeProto', task ':kt.protos:generateProto', task ':kt.protos:compileJava', task ':api-system-tests:compileJava', task ':api-system-tests:processResources', task ':api-system-tests:validateJson', task ':api-system-tests:classes', task ':testing.core:compileJava', task ':testing.api:compileJava', task ':api-system-tests:compileTestJava', task ':api-system-tests:processTestResources', task ':api-system-tests:testClasses', task ':kt.protos:processResources', task ':kt.protos:classes', task ':kt.protos:jar', task ':testing.api:processResources', task ':testing.api:validateJson', task ':testing.api:classes', task ':testing.api:jar', task ':testing.core:processResources', task ':testing.core:validateJson', task ':testing.core:classes', task ':testing.core:jar', task ':api-system-tests:test', task ':api-system-tests:fixJUnitXml', task ':api-system-tests:convertJUnitToIntelliJXML']
+Tasks that were excluded: []
+Resolve mutations for :kt.protos:extractIncludeProto (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:extractIncludeProto (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:extractIncludeProto UP-TO-DATE
+Caching disabled for task ':kt.protos:extractIncludeProto' because:
+  Build cache is disabled
+  Caching has not been enabled for the task
+Skipping task ':kt.protos:extractIncludeProto' as it is up-to-date.
+Resolve mutations for :kt.protos:generateProto (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:generateProto (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:generateProto UP-TO-DATE
+Custom actions are attached to task ':kt.protos:generateProto'.
+Caching disabled for task ':kt.protos:generateProto' because:
+  Build cache is disabled
+Skipping task ':kt.protos:generateProto' as it is up-to-date.
+Resolve mutations for :kt.protos:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:compileJava UP-TO-DATE
+Caching disabled for task ':kt.protos:compileJava' because:
+  Build cache is disabled
+Skipping task ':kt.protos:compileJava' as it is up-to-date.
+No compile result for :kt.protos:compileJava
+work action resolve main (project :kt.protos) (Thread[Execution worker Thread 8,5,main]) started.
+Resolve mutations for :api-system-tests:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:compileJava NO-SOURCE
+Skipping task ':api-system-tests:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :api-system-tests:processResources (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:processResources (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:processResources UP-TO-DATE
+Caching disabled for task ':api-system-tests:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':api-system-tests:processResources' as it is up-to-date.
+Resolve mutations for :api-system-tests:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:validateJson
+Caching disabled for task ':api-system-tests:validateJson' because:
+  Build cache is disabled
+Task ':api-system-tests:validateJson' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Validated JSON: src/test/resources/credentials.json
+Validated JSON: src/test/resources/schemas/fleetcardHttpSchemas/getAccountSummary.json
+Validated JSON: src/test/resources/schemas/fleetcardHttpSchemas/getMissedSavings.json
+Validated JSON: src/test/resources/schemas/fleetcardHttpSchemas/getMissedSavingsCardholderDetails.json
+Validated JSON: src/test/resources/schemas/fleetcardHttpSchemas/getTransactionDetailsByPublicApi.json
+Resolve mutations for :api-system-tests:classes (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:classes (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:classes
+Skipping task ':api-system-tests:classes' as it has no actions.
+Resolve mutations for :testing.core:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+:testing.core:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.core:compileJava UP-TO-DATE
+Caching disabled for task ':testing.core:compileJava' because:
+  Build cache is disabled
+Skipping task ':testing.core:compileJava' as it is up-to-date.
+No compile result for :testing.core:compileJava
+work action resolve main (project :testing.core) (Thread[Execution worker Thread 8,5,main]) started.
+Resolve mutations for :testing.api:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+:testing.api:compileJava (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.api:compileJava UP-TO-DATE
+Caching disabled for task ':testing.api:compileJava' because:
+  Build cache is disabled
+Skipping task ':testing.api:compileJava' as it is up-to-date.
+No compile result for :testing.api:compileJava
+work action resolve main (project :testing.api) (Thread[Execution worker Thread 8,5,main]) started.
+Resolve mutations for :api-system-tests:compileTestJava (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:compileTestJava (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:compileTestJava UP-TO-DATE
+allure-gradle: added dependency io.qameta.allure:allure-junit5:2.18.1 to apiElements scope of org.junit.jupiter:junit-jupiter-api:5.9.2
+Caching disabled for task ':api-system-tests:compileTestJava' because:
+  Build cache is disabled
+Skipping task ':api-system-tests:compileTestJava' as it is up-to-date.
+No compile result for :api-system-tests:compileTestJava
+Resolve mutations for :api-system-tests:processTestResources (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:processTestResources (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:processTestResources
+Caching disabled for task ':api-system-tests:processTestResources' because:
+  Build cache is disabled
+  Not worth caching
+Task ':api-system-tests:processTestResources' is not up-to-date because:
+  Input property 'rootSpec$1' file /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv has changed.
+Resolve mutations for :api-system-tests:testClasses (Thread[Execution worker Thread 8,5,main]) started.
+:api-system-tests:testClasses (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :api-system-tests:testClasses
+Skipping task ':api-system-tests:testClasses' as it has no actions.
+Resolve mutations for :kt.protos:processResources (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:processResources (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:processResources UP-TO-DATE
+Caching disabled for task ':kt.protos:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':kt.protos:processResources' as it is up-to-date.
+Resolve mutations for :kt.protos:classes (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:classes (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:classes UP-TO-DATE
+Skipping task ':kt.protos:classes' as it has no actions.
+Resolve mutations for :kt.protos:jar (Thread[Execution worker Thread 8,5,main]) started.
+:kt.protos:jar (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :kt.protos:jar UP-TO-DATE
+Caching disabled for task ':kt.protos:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':kt.protos:jar' as it is up-to-date.
+work action resolve kt.protos-1.0.jar (project :kt.protos) (Thread[Execution worker Thread 8,5,main]) started.
+Resolve mutations for :testing.api:processResources (Thread[Execution worker Thread 8,5,main]) started.
+:testing.api:processResources (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.api:processResources UP-TO-DATE
+Caching disabled for task ':testing.api:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':testing.api:processResources' as it is up-to-date.
+Resolve mutations for :testing.api:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+:testing.api:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.api:validateJson
+Caching disabled for task ':testing.api:validateJson' because:
+  Build cache is disabled
+Task ':testing.api:validateJson' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+file or directory '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/api/src/test/resources', not found
+Validated JSON: src/main/resources/safetyEvents/crash/anomaly/0_33.json
+Validated JSON: src/main/resources/safetyEvents/crash/anomaly/0_67.json
+Validated JSON: src/main/resources/safetyEvents/crash/anomaly/0_999.json
+Validated JSON: src/main/resources/safetyEvents/crash/fusion/0_1503.json
+Validated JSON: src/main/resources/safetyEvents/crash/fusion/0_736.json
+Validated JSON: src/main/resources/safetyEvents/crash/fusion/0_999.json
+Validated JSON: src/main/resources/safetyEvents/crash/hypothesis/0_13.json
+Validated JSON: src/main/resources/safetyEvents/crash/hypothesis/0_67.json
+Validated JSON: src/main/resources/safetyEvents/crash/hypothesis/0_999.json
+Validated JSON: src/main/resources/urlSettings.json
+Resolve mutations for :testing.api:classes (Thread[Execution worker Thread 8,5,main]) started.
+:testing.api:classes (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.api:classes
+Skipping task ':testing.api:classes' as it has no actions.
+Resolve mutations for :testing.api:jar (Thread[Execution worker Thread 8,5,main]) started.
+:testing.api:jar (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.api:jar UP-TO-DATE
+Caching disabled for task ':testing.api:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':testing.api:jar' as it is up-to-date.
+work action resolve testing.api-1.0.jar (project :testing.api) (Thread[Execution worker Thread 8,5,main]) started.
+Resolve mutations for :testing.core:processResources (Thread[Execution worker Thread 8,5,main]) started.
+:testing.core:processResources (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.core:processResources UP-TO-DATE
+Caching disabled for task ':testing.core:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':testing.core:processResources' as it is up-to-date.
+Resolve mutations for :testing.core:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+:testing.core:validateJson (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.core:validateJson
+Caching disabled for task ':testing.core:validateJson' because:
+  Build cache is disabled
+Task ':testing.core:validateJson' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+file or directory '/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-automation-framework/core/src/test/resources', not found
+Validated JSON: src/main/resources/testFrameworkSettings.[LOCAL_TEMPLATE].json
+Validated JSON: src/main/resources/testFrameworkSettings.performance-ag.json
+Validated JSON: src/main/resources/testFrameworkSettings.performance.json
+Validated JSON: src/main/resources/testFrameworkSettings.preview-dev.json
+Validated JSON: src/main/resources/testFrameworkSettings.preview-eu.json
+Validated JSON: src/main/resources/testFrameworkSettings.preview.json
+Validated JSON: src/main/resources/testFrameworkSettings.production.json
+Validated JSON: src/main/resources/testFrameworkSettings.staging-eu.json
+Validated JSON: src/main/resources/testFrameworkSettings.staging.json
+Resolve mutations for :testing.core:classes (Thread[Execution worker Thread 8,5,main]) started.
+:testing.core:classes (Thread[Execution worker Thread 8,5,main]) started.
+
+> Task :testing.core:classes
+Skipping task ':testing.core:classes' as it has no actions.
+Resolve mutations for :testing.core:jar (Thread[Execution worker Thread 4,5,main]) started.
+:testing.core:jar (Thread[Execution worker Thread 4,5,main]) started.
+
+> Task :testing.core:jar UP-TO-DATE
+Caching disabled for task ':testing.core:jar' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':testing.core:jar' as it is up-to-date.
+work action resolve testing.core-1.0.jar (project :testing.core) (Thread[Execution worker Thread 4,5,main]) started.
+Resolve mutations for :api-system-tests:test (Thread[Execution worker Thread 4,5,main]) started.
+:api-system-tests:test (Thread[Execution worker Thread 4,5,main]) started.
+Gradle Test Executor 15 started executing tests.
+
+> Task :api-system-tests:test
+allure-gradle: added dependency io.qameta.allure:allure-junit5:2.18.1 to runtimeElements scope of org.junit.jupiter:junit-jupiter-api:5.9.2
+Custom actions are attached to task ':api-system-tests:test'.
+Caching disabled for task ':api-system-tests:test' because:
+  Build cache is disabled
+  Gradle does not know how file 'build/allure-results/ffff50c6-bb9e-4a56-ab89-71d5f328037d-attachment.txt' was created (output property '$1$1'). Task output caching requires exclusive access to output paths to guarantee correctness (i.e. multiple tasks are not allowed to produce output in the same location).
+Task ':api-system-tests:test' is not up-to-date because:
+  Task.upToDateWhen is false.
+Starting process 'Gradle Test Executor 15'. Working directory: /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests Command: /opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home/bin/java -Dallure.results.directory=/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build/allure-results -Denvironment=staging -Dfile.separator=/ -Dftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16 -Dhttp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16 -Djava.class.path=/Users/manasa.av/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a/gradle-8.9/lib/gradle-daemon-main-8.9.jar -Djava.class.version=61.0 -Djava.home=/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home -Djava.library.path=/Users/manasa.av/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:. -Djava.runtime.name=OpenJDK Runtime Environment -Djava.runtime.version=17.0.18+0 -Djava.specification.maintenance.version=1 -Djava.specification.name=Java Platform API Specification -Djava.specification.vendor=Oracle Corporation -Djava.specification.version=17 -Djava.vendor=Homebrew -Djava.vendor.url=https://github.com/Homebrew/homebrew-core/issues -Djava.vendor.url.bug=https://github.com/Homebrew/homebrew-core/issues -Djava.vendor.version=Homebrew -Djava.version=17.0.18 -Djava.version.date=2026-01-20 -Djava.vm.compressedOopsMode=Zero based -Djava.vm.info=mixed mode, sharing -Djava.vm.name=OpenJDK 64-Bit Server VM -Djava.vm.specification.name=Java Virtual Machine Specification -Djava.vm.specification.vendor=Oracle Corporation -Djava.vm.specification.version=17 -Djava.vm.vendor=Homebrew -Djava.vm.version=17.0.18+0 -Djdk.debug=release -Djunit.jupiter.extensions.autodetection.enabled=true -Djunit.platform.reporting.open.xml.details=FULL -Djunit.platform.reporting.open.xml.enabled=true -Djunit.platform.reporting.output.capture.stderr=true -Djunit.platform.reporting.output.capture.stdout=true -Dlibrary.jansi.path=/Users/manasa.av/.gradle/native/jansi/1.18/osx -Dline.separator=
+ -Dnative.encoding=UTF-8 -Dorg.gradle.appname=gradlew -Dorg.gradle.internal.worker.tmpdir=/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build/tmp/test/work -Dos.arch=aarch64 -Dos.name=Mac OS X -Dos.version=15.7.3 -Dpath.separator=: -DsocksNonProxyHosts=local|*.local|169.254/16|*.169.254/16 -Dsun.arch.data.model=64 -Dsun.boot.library.path=/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home/lib -Dsun.cpu.endian=little -Dsun.io.unicode.encoding=UnicodeBig -Dsun.java.command=org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.9 -Dsun.java.launcher=SUN_STANDARD -Dsun.jnu.encoding=UTF-8 -Dsun.management.compiler=HotSpot 64-Bit Tiered Compilers -DuseSeedData=true -Duser.dir=/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework -Duser.home=/Users/manasa.av -Duser.name=manasa.av -Duser.timezone=Asia/Kolkata -javaagent:/Users/manasa.av/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.9.1/dcd2703279a94ad909fa3f3d08671cb0f2dabf7/aspectjweaver-1.9.9.1.jar @/Users/manasa.av/.gradle/.tmp/gradle-worker-classpath17732341287288174283txt -Xmx512m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=/var/folders/73/w590c93d4nv3sy1vsmztt3q80000gp/T/ -Duser.country=IN -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 15'
+Successfully started process 'Gradle Test Executor 15'
+
+FACreateVehicleApiTests STANDARD_OUT
+    2026-02-25T21:11:11.967+0530 INFO Running in environment: staging
+    2026-02-25T21:11:11.968+0530 INFO VRT Enabled: false
+    2026-02-25T21:11:11.968+0530 INFO Tracing Enabled: false
+    2026-02-25T21:11:11.968+0530 INFO API Usage Logging Enabled: true
+    2026-02-25T21:11:12.028+0530 INFO ****Creating new seed data****
+    2026-02-25T21:11:12.029+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:12.029+0530 INFO Polling started
+
+    2026-02-25T21:11:12.030+0530 INFO Overall time limit of polling operation is around ~70.0 seconds.
+    2026-02-25T21:11:12.030+0530 INFO Polling interval is of ~5.0 seconds.
+    2026-02-25T21:11:12.030+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:12.030+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:12.031+0530 INFO Polling attempt number: 1
+    2026-02-25T21:11:12.031+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:17.217+0530 INFO Getting auth token for user: X-Testing-Api-Key_FLEET_ADMIN_automated.testing+fcexperience@gomotive.com
+    2026-02-25T21:11:17.221+0530 ERROR [1m[31mUnable to find test method from stack trace[0m
+    2026-02-25T21:11:17.222+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    2026-02-25T21:11:18.936+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:18.937+0530 INFO Time taken for API response to arrive (seconds): 6.905
+    2026-02-25T21:11:18.937+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:18.938+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:18.938+0530 INFO Polling attempt number: 2
+    2026-02-25T21:11:18.938+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:23.951+0530 INFO Using cached auth token for user: X-Testing-Api-Key_FLEET_ADMIN_automated.testing+fcexperience@gomotive.com
+    2026-02-25T21:11:23.954+0530 ERROR [1m[31mUnable to find test method from stack trace[0m
+    2026-02-25T21:11:23.954+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    2026-02-25T21:11:26.806+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:26.807+0530 INFO Time taken for API response to arrive (seconds): 7.868
+    2026-02-25T21:11:26.807+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:26.807+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:26.807+0530 INFO Time taken to hit the correct response (seconds): 14.778
+    2026-02-25T21:11:26.807+0530 INFO ---------------------------------------------------------------------------
+    2026-02-25T21:11:26.872+0530 INFO **Clearing all cache and initialize configuration settings**
+    2026-02-25T21:11:26.872+0530 INFO ***********************
+    2026-02-25T21:11:26.873+0530 INFO Company Id-> KT4759925
+    2026-02-25T21:11:26.873+0530 INFO FleetAdmin Email-> integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:26.873+0530 INFO ***********************
+    2026-02-25T21:11:26.877+0530 INFO **Initializing seed data**
+    2026-02-25T21:11:26.893+0530 INFO Getting auth token for user: X-Web-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:28.808+0530 ERROR [1m[31mUnable to find test method from stack trace[0m
+    2026-02-25T21:11:28.808+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	GET
+    Request URI:	https://s.k2labs.org/api/w3/inspection_forms?per_page=100&page_no=1
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	per_page=100
+    				page_no=1
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-Web-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:			<none>
+
+FACreateVehicleApiTests > Create a vehicle without vehicle Number and fuel type STANDARD_OUT
+    2026-02-25T21:11:30.069+0530 INFO Adding root tag: company.id with value: 318110
+    2026-02-25T21:11:30.075+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:30.075+0530 INFO Adding root tag: company.name with value: Integration Testing Company 7e4261a5f65b
+    2026-02-25T21:11:30.075+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:30.080+0530 INFO ---------------------------------------
+    2026-02-25T21:11:30.080+0530 INFO Starting Execution of Test: Create a vehicle without vehicle Number and fuel type
+    2026-02-25T21:11:30.088+0530 INFO Getting auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:31.516+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	POST
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:
+    {
+        "make": "AUDI",
+        "model": "A6",
+        "year": "2020",
+        "vehicle_id": 0,
+        "current_sw_pkg_version": 0,
+        "driver_id": 0,
+        "engine_hours_reading": 0.0,
+        "odometer_reading": 0.0,
+        "accurate_engine_hours": false,
+        "live_share_status": false,
+        "accurate_odometer": false,
+        "use_truck_speed_limit": false,
+        "hard_accel_threshold_recommended": 0.0,
+        "override_smart_thresholds": false,
+        "company_driver_privacy_mode_enabled": false,
+        "live_stream_enabled": false,
+        "hard_brake_threshold_recommended": 0.0,
+        "eld_disconnects_count": 0,
+        "latest_odometer_reading": 0.0,
+        "hard_corner_threshold_recommended": 0.0,
+        "unsupported_hardware_for_pto": false,
+        "cam_issue_dpe_id": 0,
+        "latest_engine_hours": 0.0,
+        "regulation_mode_switching_enabled": false
+    }
+    2026-02-25T21:11:32.717+0530 INFO Completed Execution of Test: Create a vehicle without vehicle Number and fuel type
+    2026-02-25T21:11:32.717+0530 INFO ---------------------------------------
+
+FACreateVehicleApiTests > Create a vehicle with the existing vehicle details in DB STANDARD_OUT
+    2026-02-25T21:11:32.763+0530 INFO Adding root tag: company.id with value: 318110
+    2026-02-25T21:11:32.763+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:32.763+0530 INFO Adding root tag: company.name with value: Integration Testing Company 7e4261a5f65b
+    2026-02-25T21:11:32.763+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:32.764+0530 INFO ---------------------------------------
+    2026-02-25T21:11:32.764+0530 INFO Starting Execution of Test: Create a vehicle with the existing vehicle details in DB
+    2026-02-25T21:11:32.768+0530 INFO Using cached auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:32.769+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	POST
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:
+    {
+        "number": "BC-20260225211132758",
+        "make": "AUDI",
+        "model": "A6",
+        "fuel_type": "diesel",
+        "year": "2020",
+        "vehicle_id": 0,
+        "current_sw_pkg_version": 0,
+        "driver_id": 0,
+        "engine_hours_reading": 0.0,
+        "odometer_reading": 0.0,
+        "accurate_engine_hours": false,
+        "live_share_status": false,
+        "accurate_odometer": false,
+        "use_truck_speed_limit": false,
+        "hard_accel_threshold_recommended": 0.0,
+        "override_smart_thresholds": false,
+        "company_driver_privacy_mode_enabled": false,
+        "live_stream_enabled": false,
+        "hard_brake_threshold_recommended": 0.0,
+        "eld_disconnects_count": 0,
+        "latest_odometer_reading": 0.0,
+        "hard_corner_threshold_recommended": 0.0,
+        "unsupported_hardware_for_pto": false,
+        "cam_issue_dpe_id": 0,
+        "latest_engine_hours": 0.0,
+        "regulation_mode_switching_enabled": false
+    }
+    2026-02-25T21:11:34.396+0530 INFO Using cached auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:34.397+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	GET
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles/646290
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:			<none>
+    2026-02-25T21:11:35.852+0530 INFO Using cached auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:35.853+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	POST
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:
+    {
+        "id": 646290,
+        "number": "BC-20260225211132758",
+        "company_id": "318110",
+        "status": "active",
+        "make": "AUDI",
+        "model": "A6",
+        "fuel_type": "diesel",
+        "year": "2020",
+        "vehicle_id": 0,
+        "current_sw_pkg_version": 0,
+        "driver_id": 0,
+        "engine_hours_reading": 0.0,
+        "odometer_reading": 0.0,
+        "accurate_engine_hours": false,
+        "live_share_status": false,
+        "accurate_odometer": false,
+        "use_truck_speed_limit": false,
+        "hard_accel_threshold_recommended": 0.0,
+        "override_smart_thresholds": false,
+        "company_driver_privacy_mode_enabled": false,
+        "live_stream_enabled": false,
+        "hard_brake_threshold_recommended": 0.0,
+        "eld_disconnects_count": 0,
+        "latest_odometer_reading": 0.0,
+        "hard_corner_threshold_recommended": 0.0,
+        "unsupported_hardware_for_pto": false,
+        "cam_issue_dpe_id": 0,
+        "latest_engine_hours": 0.0,
+        "regulation_mode_switching_enabled": false
+    }
+    2026-02-25T21:11:37.246+0530 INFO Completed Execution of Test: Create a vehicle with the existing vehicle details in DB
+    2026-02-25T21:11:37.247+0530 INFO ---------------------------------------
+
+FACreateVehicleApiTests > Create a vehicle with all the specified details STANDARD_OUT
+    2026-02-25T21:11:37.256+0530 INFO Adding root tag: company.id with value: 318110
+    2026-02-25T21:11:37.256+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:37.256+0530 INFO Adding root tag: company.name with value: Integration Testing Company 7e4261a5f65b
+    2026-02-25T21:11:37.256+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:37.257+0530 INFO ---------------------------------------
+    2026-02-25T21:11:37.257+0530 INFO Starting Execution of Test: Create a vehicle with all the specified details
+    2026-02-25T21:11:37.261+0530 INFO Using cached auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:37.262+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	POST
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:
+    {
+        "number": "BY-20260225211137250",
+        "make": "AUDI",
+        "model": "A6",
+        "fuel_type": "diesel",
+        "year": "2020",
+        "vehicle_id": 0,
+        "current_sw_pkg_version": 0,
+        "driver_id": 0,
+        "engine_hours_reading": 0.0,
+        "odometer_reading": 0.0,
+        "accurate_engine_hours": false,
+        "live_share_status": false,
+        "accurate_odometer": false,
+        "use_truck_speed_limit": false,
+        "hard_accel_threshold_recommended": 0.0,
+        "override_smart_thresholds": false,
+        "company_driver_privacy_mode_enabled": false,
+        "live_stream_enabled": false,
+        "hard_brake_threshold_recommended": 0.0,
+        "eld_disconnects_count": 0,
+        "latest_odometer_reading": 0.0,
+        "hard_corner_threshold_recommended": 0.0,
+        "unsupported_hardware_for_pto": false,
+        "cam_issue_dpe_id": 0,
+        "latest_engine_hours": 0.0,
+        "regulation_mode_switching_enabled": false
+    }
+    2026-02-25T21:11:38.892+0530 INFO Using cached auth token for user: X-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_c7a0f6a590e5_email@gomotive.com
+    2026-02-25T21:11:38.893+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	GET
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles/646300
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				X-User-Auth=[ BLACKLISTED ]
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:			<none>
+    2026-02-25T21:11:40.588+0530 INFO Completed Execution of Test: Create a vehicle with all the specified details
+    2026-02-25T21:11:40.589+0530 INFO ---------------------------------------
+
+FACreateVehicleApiTests > Create a vehicle without mandatory header STANDARD_OUT
+    2026-02-25T21:11:40.595+0530 INFO Adding root tag: company.id with value: 318110
+    2026-02-25T21:11:40.595+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:40.595+0530 INFO Adding root tag: company.name with value: Integration Testing Company 7e4261a5f65b
+    2026-02-25T21:11:40.595+0530 WARN [1m[38;5;208mActive span is not a MutableSpan. Cannot add root tag.[0m
+    2026-02-25T21:11:40.596+0530 INFO ---------------------------------------
+    2026-02-25T21:11:40.596+0530 INFO Starting Execution of Test: Create a vehicle without mandatory header
+    2026-02-25T21:11:40.601+0530 INFO Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+    Request method:	POST
+    Request URI:	https://s.k2labs.org/api/fa1/vehicles
+    Proxy:			<none>
+    Request params:	<none>
+    Query params:	<none>
+    Form params:	<none>
+    Path params:	<none>
+    Headers:		Accept=*/*
+    				Content-Type=application/json
+    Cookies:		<none>
+    Multiparts:		<none>
+    Body:
+    {
+        "number": "BE-20260225211140591",
+        "make": "AUDI",
+        "model": "A6",
+        "fuel_type": "diesel",
+        "year": "2020",
+        "vehicle_id": 0,
+        "current_sw_pkg_version": 0,
+        "driver_id": 0,
+        "engine_hours_reading": 0.0,
+        "odometer_reading": 0.0,
+        "accurate_engine_hours": false,
+        "live_share_status": false,
+        "accurate_odometer": false,
+        "use_truck_speed_limit": false,
+        "hard_accel_threshold_recommended": 0.0,
+        "override_smart_thresholds": false,
+        "company_driver_privacy_mode_enabled": false,
+        "live_stream_enabled": false,
+        "hard_brake_threshold_recommended": 0.0,
+        "eld_disconnects_count": 0,
+        "latest_odometer_reading": 0.0,
+        "hard_corner_threshold_recommended": 0.0,
+        "unsupported_hardware_for_pto": false,
+        "cam_issue_dpe_id": 0,
+        "latest_engine_hours": 0.0,
+        "regulation_mode_switching_enabled": false
+    }
+    2026-02-25T21:11:41.767+0530 INFO Completed Execution of Test: Create a vehicle without mandatory header
+    2026-02-25T21:11:41.767+0530 INFO ---------------------------------------
+
+Gradle Test Executor 15 STANDARD_OUT
+    2026-02-25T21:11:41.787+0530 INFO ##########testPlanExecutionFinished [TestIdentifier [uniqueId = [engine:junit-jupiter], parentId = null, displayName = 'JUnit Jupiter', legacyReportingName = 'JUnit Jupiter', source = null, tags = [], type = CONTAINER]]
+
+Gradle Test Executor 15 finished executing tests.
+
+> Task :api-system-tests:test
+Finished generating test XML results (0.003 secs) into: /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build/test-results/junit
+Generating HTML test report...
+Finished generating test html results (0.002 secs) into: /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build/reports/tests/test
+API usage logged to gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+Resolve mutations for :api-system-tests:fixJUnitXml (Thread[included builds,5,main]) started.
+:api-system-tests:fixJUnitXml (Thread[included builds,5,main]) started.
+
+> Task :api-system-tests:fixJUnitXml
+Caching disabled for task ':api-system-tests:fixJUnitXml' because:
+  Build cache is disabled
+Task ':api-system-tests:fixJUnitXml' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Running in environment: staging
+VRT Enabled: false
+Tracing Enabled: false
+API Usage Logging Enabled: true
+****Creating new seed data****
+---------------------------------------------------------------------------
+Polling started
+
+Overall time limit of polling operation is around ~70.0 seconds.
+Polling interval is of ~5.0 seconds.
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Polling attempt number: 1
+---------------------------------------------------------------------------
+
+Getting auth token for user: X-Testing-Api-Key_FLEET_ADMIN_NULL
+[1m[31mUnable to find test method from stack trace[0m
+Writing to /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/src/test/resources/apiUsage/apiUsage.csv
+
+> Task :api-system-tests:fixJUnitXml
+---------------------------------------------------------------------------
+Time taken for API response to arrive (seconds): 7.968
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Time taken to hit the correct response (seconds): 7.969
+---------------------------------------------------------------------------
+**Clearing all cache and initialize configuration settings**
+***********************
+Company Id-> KT6147018
+FleetAdmin Email-> integration_test_dptch_admin_e7d69b1eb9f1_email@gomotive.com
+***********************
+**Initializing seed data**
+Getting auth token for user: X-Web-User-Auth_FLEET_ADMIN_integration_test_dptch_admin_e7d69b1eb9f1_email@gomotive.com
+
+> Task :api-system-tests:fixJUnitXml FAILED
+Resolve mutations for :api-system-tests:convertJUnitToIntelliJXML (Thread[included builds,5,main]) started.
+:api-system-tests:convertJUnitToIntelliJXML (Thread[included builds,5,main]) started.
+
+> Task :api-system-tests:convertJUnitToIntelliJXML
+Caching disabled for task ':api-system-tests:convertJUnitToIntelliJXML' because:
+  Build cache is disabled
+Task ':api-system-tests:convertJUnitToIntelliJXML' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+IntelliJ-compatible rerunnable XML generated at: /Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework/gomotive-system-tests/api-system-tests/build/test-results/intellij_api_test_xml_report.xml
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':api-system-tests:fixJUnitXml'.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 42s
+30 actionable tasks: 8 executed, 22 up-to-date
+Watched directory hierarchies: [/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework]

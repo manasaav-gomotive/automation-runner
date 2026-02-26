@@ -1,0 +1,9 @@
+{
+  "name": "staging",
+  "base_url": "https://s.k2labs.org",
+  "gradle_task": "api-system-tests:test",
+  "project_dir": "/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework",
+  "auth_token_env": "API_TOKEN",
+  "retries": 2,
+  "delay": 5
+}
