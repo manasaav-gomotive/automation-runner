@@ -1,28 +1,54 @@
 name: Automation Runner
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
   test:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Runner (This Repo)
         uses: actions/checkout@v4
+        with:
+          path: runner-code
+
+      - name: Checkout Framework (Subdirectory only)
+        uses: actions/checkout@v4
+        with:
+          repository: KeepTruckin/kt
+          path: kt-repo
+          token: ${{ secrets.GH_PAT }}
+          sparse-checkout: |
+            src/qa-sqa/automation-framework
+          sparse-checkout-cone-mode: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Make Gradle Executable
+        run: chmod +x ${{ github.workspace }}/kt-repo/src/qa-sqa/automation-framework/gradlew
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd runner-code
+          pip install -r requirements.txt
 
       - name: Run automation runner
-        run: python runner.py --env staging --suite com.gomotive.system.tests.fleetapp.FACreateVehicleApiTests
+        run: |
+          cd runner-code
+          python runner.py staging com.gomotive.system.tests.fleetapp.FACreateVehicleApiTests
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          PROJECT_DIR: ${{ github.workspace }}/kt-repo/src/qa-sqa/automation-framework

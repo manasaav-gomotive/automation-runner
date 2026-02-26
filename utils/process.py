@@ -1,24 +1,17 @@
 import os
 import subprocess
 
-def run_process(cmd, config):
 
+def run_process(cmd, config):
     env = os.environ.copy()
 
-    if hasattr(config, "env_vars"):
+    # Update environment with any custom variables from config
+    if hasattr(config, "env_vars") and config.env_vars:
         env.update(config.env_vars)
 
-    if hasattr(config, "java_home"):
-        env["JAVA_HOME"] = config.java_home
-        env["PATH"] = config.java_home + "/bin:" + env["PATH"]
+    print(f"🚀 Executing in: {config.project_dir}")
+    print(f"💻 Command: {' '.join(cmd) if isinstance(cmd, list) else cmd}")
 
-    if "--info" in cmd:
-        cmd.remove("--info")
-
-    if "-DuseSeedData=true" in cmd:
-        cmd.remove("-DuseSeedData=true")
-
-    print(" ".join(cmd))
     process = subprocess.Popen(
         cmd,
         cwd=config.project_dir,
@@ -26,7 +19,8 @@ def run_process(cmd, config):
         stderr=subprocess.STDOUT,
         text=True,
         env=env,
-        bufsize=1,  # important for line buffering
+        bufsize=1,
+        shell=isinstance(cmd, str)  # Use shell if cmd is a string
     )
 
     output = ""
@@ -38,12 +32,8 @@ def run_process(cmd, config):
             test_failed = True
 
     process.stdout.close()
-    process.wait()
+    return_code = process.wait()
 
-
-    # check weather the command has failed inside subprocess execution
-
-    
     if test_failed:
         return 2, output
-    return process.returncode, output
+    return return_code, output

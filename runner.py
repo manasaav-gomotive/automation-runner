@@ -1,4 +1,5 @@
 import sys
+import os
 from engine.executor import execute_suite
 from config.loader import load_env_config
 from utils.logger import log
@@ -16,18 +17,19 @@ def main():
 
     config = load_env_config(env)
 
-    # execute_suite(env, suite, config)
+    # CI OVERRIDE: Prioritize GitHub Environment Variable
+    github_project_dir = os.getenv('PROJECT_DIR')
+    if github_project_dir:
+        log(f"CI Path Detected: {github_project_dir}")
+        config.project_dir = github_project_dir # Assuming DotDict or similar object
 
     summary = execute_suite(env, suite, config)
 
     status = "SUCCESS" if summary["exit_code"] == 0 else "FAILED"
 
     print("\n================ TEST RUN SUMMARY ================")
-    print(f"Environment      : {env}")
-    print(f"Suite            : {suite}")
     print(f"Status           : {status}")
     print(f"Total Attempts   : {summary['attempts']}")
-    print(f"Failure Type     : {summary['failure_type']}")
     print(f"Retried Testcases: {summary['retried_tests']}")
     print("==================================================\n")
 
