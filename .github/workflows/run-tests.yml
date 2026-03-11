@@ -3,7 +3,7 @@ name: Automation Runner
 on:
   workflow_dispatch: # Allows manual trigger from GitHub UI
   push:
-    branches: [ main ]
+    branches: [ main, automation_runner ]
 
 jobs:
   test:
