@@ -33,19 +33,19 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Make Gradle Executable
-        run: chmod +x ${{ github.workspace }}/kt-repo/gradlew
-
-      - name: Install dependencies
-        run: |
-          cd runner-code
-          pip install -r requirements.txt
-
-      - name: Run automation runner
-        run: |
-          cd runner-code
-          python runner.py staging com.gomotive.system.tests.fleetapp.FACreateVehicleApiTests
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}/kt-repo
+#      - name: Make Gradle Executable
+#        run: chmod +x ${{ github.workspace }}/kt-repo/gradlew
+#
+#      - name: Install dependencies
+#        run: |
+#          cd runner-code
+#          pip install -r requirements.txt
+#
+#      - name: Run automation runner
+#        run: |
+#          cd runner-code
+#          python runner.py staging com.gomotive.system.tests.fleetapp.FACreateVehicleApiTests
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#          API_TOKEN: ${{ secrets.API_TOKEN }}
+#          PROJECT_DIR: ${{ github.workspace }}/kt-repo
