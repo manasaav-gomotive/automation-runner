@@ -15,15 +15,12 @@ jobs:
         with:
           path: runner-code
 
-      - name: Checkout Framework (Subdirectory only)
+      - name: Checkout Framework Repo
         uses: actions/checkout@v4
         with:
-          repository: KeepTruckin/kt
+          repository: ${{ github.repository_owner }}/automation-framework
           path: kt-repo
           token: ${{ secrets.GH_PAT }}
-          sparse-checkout: |
-            src/qa-sqa/automation-framework
-          sparse-checkout-cone-mode: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,7 +34,7 @@ jobs:
           java-version: '17'
 
       - name: Make Gradle Executable
-        run: chmod +x ${{ github.workspace }}/kt-repo/src/qa-sqa/automation-framework/gradlew
+        run: chmod +x ${{ github.workspace }}/kt-repo/gradlew
 
       - name: Install dependencies
         run: |
@@ -51,4 +48,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}/kt-repo/src/qa-sqa/automation-framework
+          PROJECT_DIR: ${{ github.workspace }}/kt-repo
