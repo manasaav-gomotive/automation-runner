@@ -37,6 +37,7 @@ jobs:
 #
       - name: Install dependencies
         run: |
+          ls
           cd runner-code
           pip install -r requirements.txt
 #
