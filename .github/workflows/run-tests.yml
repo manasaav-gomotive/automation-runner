@@ -18,7 +18,7 @@ jobs:
       - name: Checkout Framework Repo
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/automation-framework
+          repository: KeepTruckin/motive-testing-automationframework
           path: kt-repo
           token: ${{ secrets.GH_PAT }}
 
