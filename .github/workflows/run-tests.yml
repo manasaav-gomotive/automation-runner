@@ -65,18 +65,11 @@ jobs:
           chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/gradlew
           chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh
 
-      - name: Link CI Helpers For GitHub Runner Layout
-        run: |
-          mkdir -p /Users/runner/.ci
-          ln -sfn ${{ github.workspace }}/.ci/corp /Users/runner/.ci/corp
-
       - name: Debug Runner Layout
         run: |
           echo "GITHUB_SHA=${GITHUB_SHA}"
           echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
           pwd
-          ls -la /Users/runner/.ci || true
-          ls -la /Users/runner/.ci/corp || true
           ls -la ${{ github.workspace }}/.ci || true
           ls -la ${{ github.workspace }}/.ci/corp || true
           ls -la ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci || true
