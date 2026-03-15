@@ -28,7 +28,7 @@ jobs:
             .ci
             .gitmodules
             etc
-            lib/kt
+            lib
             src/qa-sqa/automation-framework
           sparse-checkout-cone-mode: false
 
