@@ -19,17 +19,24 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout Framework Repo
+      - name: Checkout KT Repo
         uses: actions/checkout@v4
         with:
-          repository: KeepTruckin/motive-testing-automationframework
+          repository: KeepTruckin/kt
           token: ${{ secrets.GH_PAT }}
-          submodules: recursive
+          sparse-checkout: |
+            .ci
+            .gitmodules
+            src/qa-sqa/automation-framework
+          sparse-checkout-cone-mode: false
 
       - name: Checkout Runner (This Repo)
         uses: actions/checkout@v4
         with:
           path: runner-code
+
+      - name: Init Framework Submodule
+        run: git submodule update --init --recursive src/qa-sqa/automation-framework
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -44,8 +51,8 @@ jobs:
 
       - name: Make Framework Scripts Executable
         run: |
-          chmod +x ${{ github.workspace }}/gradlew
-          chmod +x ${{ github.workspace }}/.ci/run-api-tests-by-pod.sh
+          chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/gradlew
+          chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh
 
       - name: Link CI Helpers For GitHub Runner Layout
         run: |
@@ -61,6 +68,7 @@ jobs:
           ls -la /Users/runner/.ci/corp || true
           ls -la ${{ github.workspace }}/.ci || true
           ls -la ${{ github.workspace }}/.ci/corp || true
+          ls -la ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci || true
 
       - name: Install dependencies
         run: |
@@ -74,4 +82,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}
+          PROJECT_DIR: ${{ github.workspace }}/src/qa-sqa/automation-framework
