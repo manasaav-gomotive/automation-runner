@@ -28,7 +28,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: KeepTruckin/motive-testing-automationframework
-          path: kt-repo
           token: ${{ secrets.GH_PAT }}
           submodules: recursive
 
@@ -45,8 +44,8 @@ jobs:
 
       - name: Make Framework Scripts Executable
         run: |
-          chmod +x ${{ github.workspace }}/kt-repo/gradlew
-          chmod +x ${{ github.workspace }}/kt-repo/.ci/run-api-tests-by-pod.sh
+          chmod +x ${{ github.workspace }}/gradlew
+          chmod +x ${{ github.workspace }}/.ci/run-api-tests-by-pod.sh
 
       - name: Install dependencies
         run: |
@@ -60,4 +59,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}/kt-repo
+          PROJECT_DIR: ${{ github.workspace }}
