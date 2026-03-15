@@ -5,5 +5,6 @@ SUITE_MAP = {
     "session": "*Session*",
     "group": "*Group*",
     "devices": "*Devices*",
-    "login": "*Login*"
+    "login": "*Login*",
+    "safety.settings": "com.gomotive.system.tests.safety.settings.*",
 }
