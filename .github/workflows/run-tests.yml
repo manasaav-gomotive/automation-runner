@@ -8,9 +8,9 @@ on:
         required: true
         default: staging
       suite:
-        description: Framework suite token passed to .ci/run-api-tests-by-pod.sh
+        description: Gradle test class or pattern passed to --tests
         required: true
-        default: safety.settings
+        default: SafetySettings
   push:
     branches: [ main, automation_runner ]
 
@@ -19,34 +19,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout KT Repo
+      - name: Checkout Framework Repo
         uses: actions/checkout@v4
         with:
-          repository: KeepTruckin/kt
+          repository: KeepTruckin/motive-testing-automationframework
           token: ${{ secrets.GH_PAT }}
-          sparse-checkout: |
-            .ci
-            .gitmodules
-            etc
-            lib
-            src/qa-sqa/automation-framework
-          sparse-checkout-cone-mode: false
+          path: framework
 
       - name: Checkout Runner (This Repo)
         uses: actions/checkout@v4
         with:
           path: runner-code
-
-      - name: Configure GitHub Auth For Submodules
-        run: |
-          git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "ssh://git@github.com/"
-          git config -f .gitmodules submodule.src/qa-sqa/automation-framework.url "https://x-access-token:${{ secrets.GH_PAT }}@github.com/KeepTruckin/motive-testing-automationframework.git"
-          git config submodule.src/qa-sqa/automation-framework.url "https://x-access-token:${{ secrets.GH_PAT }}@github.com/KeepTruckin/motive-testing-automationframework.git"
-          git submodule sync -- src/qa-sqa/automation-framework
-
-      - name: Init Framework Submodule
-        run: git submodule update --init --recursive src/qa-sqa/automation-framework
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -59,31 +42,9 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install CI Runner Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y moreutils
-
-      - name: Prepare Prow Workspace Paths
-        run: |
-          sudo mkdir -p /home/prow
-          sudo ln -sfn ${{ github.workspace }} /home/prow/go
-          sudo chown -h runner:runner /home/prow/go
-
       - name: Make Framework Scripts Executable
         run: |
-          chmod +x ${{ github.workspace }}/.ci/prod/runner.sh
-          chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/gradlew
-          chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh
-
-      - name: Debug Runner Layout
-        run: |
-          echo "GITHUB_SHA=${GITHUB_SHA}"
-          echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
-          pwd
-          ls -la ${{ github.workspace }}/.ci || true
-          ls -la ${{ github.workspace }}/.ci/corp || true
-          ls -la ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci || true
+          chmod +x ${{ github.workspace }}/framework/gradlew
 
       - name: Install dependencies
         run: |
@@ -97,4 +58,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}
+          PROJECT_DIR: ${{ github.workspace }}/framework
