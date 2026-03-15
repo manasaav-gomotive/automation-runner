@@ -11,6 +11,22 @@ def build_command(env, suite, config, tests=None):
             resolved_script = os.path.join(config.project_dir, script_path)
         return [resolved_script, env, suite]
 
+    if execution_mode == "ci_wrapper":
+        wrapper_path = getattr(config, "ci_wrapper_path", ".ci/prod/runner.sh")
+        script_path = getattr(
+            config,
+            "ci_script_path",
+            "src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh",
+        )
+        resolved_wrapper = wrapper_path
+        if not os.path.isabs(wrapper_path):
+            resolved_wrapper = os.path.join(config.project_dir, wrapper_path)
+
+        command = [resolved_wrapper]
+        command.extend(list(getattr(config, "ci_wrapper_args", [])))
+        command.extend([script_path, env, suite])
+        return command
+
     gradle_task = getattr(config, "gradle_task", "api-system-tests:test")
     use_seed_data = str(getattr(config, "use_seed_data", True)).lower()
     gradle_executable = getattr(config, "gradle_executable", "./gradlew")

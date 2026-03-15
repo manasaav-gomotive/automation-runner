@@ -59,6 +59,7 @@ jobs:
 
       - name: Make Framework Scripts Executable
         run: |
+          chmod +x ${{ github.workspace }}/.ci/prod/runner.sh
           chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/gradlew
           chmod +x ${{ github.workspace }}/src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh
 
@@ -90,4 +91,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          PROJECT_DIR: ${{ github.workspace }}/src/qa-sqa/automation-framework
+          PROJECT_DIR: ${{ github.workspace }}

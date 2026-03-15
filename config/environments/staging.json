@@ -1,9 +1,11 @@
 {
   "name": "staging",
   "base_url": "https://s.k2labs.org",
-  "execution_mode": "ci_script",
-  "ci_script_path": ".ci/run-api-tests-by-pod.sh",
-  "project_dir": "/Users/manasa.av/code/KeepTruckin/kt/src/qa-sqa/automation-framework",
+  "execution_mode": "ci_wrapper",
+  "ci_wrapper_path": ".ci/prod/runner.sh",
+  "ci_wrapper_args": ["git", "submodule", "update", "--init", "--recursive"],
+  "ci_script_path": "src/qa-sqa/automation-framework/.ci/run-api-tests-by-pod.sh",
+  "project_dir": "/Users/manasa.av/code/KeepTruckin/kt",
   "auth_token_env": "API_TOKEN",
   "retries": 2,
   "delay": 5
