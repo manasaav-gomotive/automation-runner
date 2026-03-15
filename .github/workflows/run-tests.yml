@@ -19,17 +19,17 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout Runner (This Repo)
-        uses: actions/checkout@v4
-        with:
-          path: runner-code
-
       - name: Checkout Framework Repo
         uses: actions/checkout@v4
         with:
           repository: KeepTruckin/motive-testing-automationframework
           token: ${{ secrets.GH_PAT }}
           submodules: recursive
+
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v4
+        with:
+          path: runner-code
 
       - name: Set up Python
         uses: actions/setup-python@v5
