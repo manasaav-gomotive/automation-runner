@@ -52,6 +52,16 @@ jobs:
           mkdir -p /Users/runner/.ci
           ln -sfn ${{ github.workspace }}/.ci/corp /Users/runner/.ci/corp
 
+      - name: Debug Runner Layout
+        run: |
+          echo "GITHUB_SHA=${GITHUB_SHA}"
+          echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
+          pwd
+          ls -la /Users/runner/.ci || true
+          ls -la /Users/runner/.ci/corp || true
+          ls -la ${{ github.workspace }}/.ci || true
+          ls -la ${{ github.workspace }}/.ci/corp || true
+
       - name: Install dependencies
         run: |
           cd runner-code
