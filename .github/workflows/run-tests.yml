@@ -2,6 +2,15 @@ name: Automation Runner
 
 on:
   workflow_dispatch: # Allows manual trigger from GitHub UI
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        default: staging
+      suite:
+        description: Framework suite token passed to .ci/run-api-tests-by-pod.sh
+        required: true
+        default: safety.settings
   push:
     branches: [ main, automation_runner ]
 
@@ -21,6 +30,7 @@ jobs:
           repository: KeepTruckin/motive-testing-automationframework
           path: kt-repo
           token: ${{ secrets.GH_PAT }}
+          submodules: recursive
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,9 +43,11 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-#      - name: Make Gradle Executable
-#        run: chmod +x ${{ github.workspace }}/kt-repo/gradlew
-#
+      - name: Make Framework Scripts Executable
+        run: |
+          chmod +x ${{ github.workspace }}/kt-repo/gradlew
+          chmod +x ${{ github.workspace }}/kt-repo/.ci/run-api-tests-by-pod.sh
+
       - name: Install dependencies
         run: |
           cd runner-code
@@ -44,7 +56,7 @@ jobs:
       - name: Run automation runner
         run: |
           cd runner-code
-          python runner.py staging com.gomotive.system.tests.fleetapp.FACreateVehicleApiTests
+          python runner.py "${{ github.event.inputs.environment || 'staging' }}" "${{ github.event.inputs.suite || 'safety.settings' }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}

@@ -82,6 +82,7 @@ def retry_if_needed(run_fn, retries, delay, config, env, suite):
     attempt = 0
     retried_tests = []
     final_failure_type = None
+    execution_mode = getattr(config, "execution_mode", "gradle")
 
     while True:
         print(f"\n[RETRY] Attempt {attempt + 1} of {retries + 1}")
@@ -120,7 +121,7 @@ def retry_if_needed(run_fn, retries, delay, config, env, suite):
                 "retried_tests": retried_tests
             }
 
-        failed_tests = extract_failed_tests(output)
+        failed_tests = extract_failed_tests(output) if execution_mode == "gradle" else []
 
         if failed_tests:
             print(f"[RETRY] Retrying failed tests only: {failed_tests}")
