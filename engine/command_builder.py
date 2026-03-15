@@ -51,12 +51,7 @@ def build_command(env, suite, config, tests=None):
             base_cmd.extend(["--tests", test])
         return base_cmd
 
-    # If suite looks like a fully qualified class name
-    if "." in suite:
-        base_cmd.extend(["--tests", suite])
-        return base_cmd
-
-    # Otherwise treat it as suite alias
+    # Prefer explicit suite mappings first (even if they contain dots)
     suite_map = getattr(config, "suite_map", {})
     pattern = suite_map.get(suite, f"*{suite}*")
     base_cmd.extend(["--tests", pattern])
