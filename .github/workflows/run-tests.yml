@@ -47,6 +47,11 @@ jobs:
           chmod +x ${{ github.workspace }}/gradlew
           chmod +x ${{ github.workspace }}/.ci/run-api-tests-by-pod.sh
 
+      - name: Link CI Helpers For GitHub Runner Layout
+        run: |
+          mkdir -p /Users/runner/.ci
+          ln -sfn ${{ github.workspace }}/.ci/corp /Users/runner/.ci/corp
+
       - name: Install dependencies
         run: |
           cd runner-code
