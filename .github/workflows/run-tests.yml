@@ -64,6 +64,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y moreutils
 
+      - name: Prepare Prow Workspace Paths
+        run: |
+          sudo mkdir -p /home/prow
+          sudo ln -sfn ${{ github.workspace }} /home/prow/go
+          sudo chown -h runner:runner /home/prow/go
+
       - name: Make Framework Scripts Executable
         run: |
           chmod +x ${{ github.workspace }}/.ci/prod/runner.sh
@@ -92,5 +98,3 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
           PROJECT_DIR: ${{ github.workspace }}
-          trusted_public_keys: ""
-          binary_caches: ""

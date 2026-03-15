@@ -1,4 +1,5 @@
 import os
+import shlex
 
 
 def build_command(env, suite, config, tests=None):
@@ -25,7 +26,11 @@ def build_command(env, suite, config, tests=None):
         command = [resolved_wrapper]
         command.extend(list(getattr(config, "ci_wrapper_args", [])))
         command.extend([script_path, env, suite])
-        return command
+
+        shell_command = "trusted_public_keys=(); binary_caches=(); exec " + " ".join(
+            shlex.quote(part) for part in command
+        )
+        return ["/bin/bash", "-lc", shell_command]
 
     gradle_task = getattr(config, "gradle_task", "api-system-tests:test")
     use_seed_data = str(getattr(config, "use_seed_data", True)).lower()
