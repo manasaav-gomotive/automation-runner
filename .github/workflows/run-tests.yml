@@ -70,10 +70,15 @@ jobs:
 
       - name: Debug downloaded framework settings
         run: |
+          settings_file="framework/gomotive-automation-framework/core/src/main/resources/testFrameworkSettings.${{ github.event.inputs.environment || 'staging' }}.json"
           echo "Searching for framework settings files"
-          find framework -maxdepth 4 \( -name '*.properties' -o -name '*.json' -o -name '*.yaml' -o -name '*.yml' \) | sort | sed -n '1,120p'
-          echo "Searching for env_motive_ai_eld_identifier references"
-          grep -RInE "env_motive_ai_eld_identifier|motive_ai_eld_identifier|DriverVehicleSettings" framework || true
+          find framework \( -name '*.properties' -o -name '*.json' -o -name '*.yaml' -o -name '*.yml' \) | sort | sed -n '1,120p'
+          echo "Inspecting ${settings_file}"
+          if [[ -f "${settings_file}" ]]; then
+            grep -nE "env_motive_ai_eld_identifier|env_motive_safety1_vehicle_id|motive_ai_eld_identifier|motive_safety1_vehicle_id" "${settings_file}" || true
+          else
+            echo "Settings file not found during debug: ${settings_file}"
+          fi
 
       - name: Validate downloaded framework settings
         run: |
