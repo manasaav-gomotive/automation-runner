@@ -69,6 +69,7 @@ jobs:
 
       - name: Install SDKMAN and project env
         run: |
+          cd framework
           install_sdkman_env
 
       - name: Setup Gradle
