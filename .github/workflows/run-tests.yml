@@ -67,6 +67,13 @@ jobs:
             echo "AWS credentials not configured in this repo; skipping download_test_framework_settings"
           fi
 
+      - name: Debug downloaded framework settings
+        run: |
+          echo "Searching for framework settings files"
+          find framework -maxdepth 4 \( -name '*.properties' -o -name '*.json' -o -name '*.yaml' -o -name '*.yml' \) | sort | sed -n '1,120p'
+          echo "Searching for env_motive_ai_eld_identifier references"
+          rg -n "env_motive_ai_eld_identifier|motive_ai_eld_identifier|DriverVehicleSettings" framework || true
+
       - name: Install SDKMAN and project env
         run: |
           cd framework
