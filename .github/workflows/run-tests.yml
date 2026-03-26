@@ -90,6 +90,63 @@ jobs:
           fi
           echo "Found settings file: ${settings_file}"
 
+      - name: Generate framework .env
+        env:
+          MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
+          MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
+          MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
+          MOTIVE_ADMIN_CONSOLE_EMAIL: ${{ secrets.MOTIVE_ADMIN_CONSOLE_EMAIL }}
+          MOTIVE_ADMIN_CONSOLE_PASSWORD: ${{ secrets.MOTIVE_ADMIN_CONSOLE_PASSWORD }}
+          MOTIVE_AI_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_AI_DRIVER_EMAIL_ID }}
+          MOTIVE_AI_DRIVER_PASSWORD: ${{ secrets.MOTIVE_AI_DRIVER_PASSWORD }}
+          MOTIVE_AI_VEHICLE_ID: ${{ secrets.MOTIVE_AI_VEHICLE_ID }}
+          MOTIVE_AI_ELD_DEVICE_ID: ${{ secrets.MOTIVE_AI_ELD_DEVICE_ID }}
+          MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
+          MOTIVE_CAMERA_SERIALNUMBER: ${{ secrets.MOTIVE_CAMERA_SERIALNUMBER }}
+          MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
+          MOTIVE_SAFETY1_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY1_DRIVER_ID }}
+          MOTIVE_SAFETY1_DRIVER_EMAIL: ${{ secrets.MOTIVE_SAFETY1_DRIVER_EMAIL }}
+          MOTIVE_SAFETY1_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY1_DRIVER_PASSWORD }}
+        run: |
+          env_file="framework/gomotive-automation-framework/core/src/main/resources/.env"
+          cat > "${env_file}" <<EOF
+          MOTIVE_ADMIN_EMAIL=${MOTIVE_ADMIN_EMAIL}
+          MOTIVE_ADMIN_PASSWORD=${MOTIVE_ADMIN_PASSWORD}
+          MOTIVE_WEBUSERNAMEPASSWORD=${MOTIVE_WEBUSERNAMEPASSWORD}
+          MOTIVE_ADMIN_CONSOLE_EMAIL=${MOTIVE_ADMIN_CONSOLE_EMAIL}
+          MOTIVE_ADMIN_CONSOLE_PASSWORD=${MOTIVE_ADMIN_CONSOLE_PASSWORD}
+          MOTIVE_AI_DRIVER_EMAIL_ID=${MOTIVE_AI_DRIVER_EMAIL_ID}
+          MOTIVE_AI_DRIVER_PASSWORD=${MOTIVE_AI_DRIVER_PASSWORD}
+          MOTIVE_AI_VEHICLE_ID=${MOTIVE_AI_VEHICLE_ID}
+          MOTIVE_AI_ELD_DEVICE_ID=${MOTIVE_AI_ELD_DEVICE_ID}
+          MOTIVE_AI_ELD_IDENTIFIER=${MOTIVE_AI_ELD_IDENTIFIER}
+          MOTIVE_CAMERA_SERIALNUMBER=${MOTIVE_CAMERA_SERIALNUMBER}
+          MOTIVE_SAFETY1_VEHICLE_ID=${MOTIVE_SAFETY1_VEHICLE_ID}
+          MOTIVE_SAFETY1_DRIVER_ID=${MOTIVE_SAFETY1_DRIVER_ID}
+          MOTIVE_SAFETY1_DRIVER_EMAIL=${MOTIVE_SAFETY1_DRIVER_EMAIL}
+          MOTIVE_SAFETY1_DRIVER_PASSWORD=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
+          EOF
+          echo "Generated ${env_file}"
+
+      - name: Validate required safety env values
+        env:
+          MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
+          MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
+        run: |
+          missing=0
+          if [[ -z "${MOTIVE_AI_ELD_IDENTIFIER}" ]]; then
+            echo "Missing required secret: MOTIVE_AI_ELD_IDENTIFIER"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_SAFETY1_VEHICLE_ID}" ]]; then
+            echo "Missing required secret: MOTIVE_SAFETY1_VEHICLE_ID"
+            missing=1
+          fi
+          if [[ "${missing}" -ne 0 ]]; then
+            echo "Safety suite cannot run until the required secrets are configured in this repo/environment."
+            exit 1
+          fi
+
       - name: Install SDKMAN and project env
         run: |
           cd framework
