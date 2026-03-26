@@ -69,7 +69,6 @@ jobs:
 
       - name: Install SDKMAN and project env
         run: |
-          source framework/.ci/ci-test-helper.sh
           install_sdkman_env
 
       - name: Setup Gradle
