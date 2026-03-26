@@ -34,12 +34,14 @@ def build_command(env, suite, config, tests=None):
 
     gradle_task = getattr(config, "gradle_task", "api-system-tests:test")
     use_seed_data = str(getattr(config, "use_seed_data", True)).lower()
+    debug_logging = str(getattr(config, "debug_logging", False)).lower()
     gradle_executable = getattr(config, "gradle_executable", "./gradlew")
     gradle_flags = list(getattr(config, "gradle_flags", ["--info"]))
 
     base_cmd = [
         gradle_executable,
         gradle_task,
+        f"-DdebugLogging={debug_logging}",
         f"-Denvironment={env}",
         f"-DuseSeedData={use_seed_data}",
     ]
