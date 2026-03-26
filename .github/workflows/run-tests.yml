@@ -7,6 +7,10 @@ on:
         description: Target environment
         required: true
         default: staging
+      region:
+        description: Region used for framework settings download
+        required: true
+        default: us
       suite:
         description: Gradle test class or pattern passed to --tests
         required: true
@@ -42,6 +46,27 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Prepare framework environment
+        run: |
+          echo "BASH_ENV=$GITHUB_WORKSPACE/framework/.ci/ci-test-helper.sh" >> "$GITHUB_ENV"
+          source framework/.ci/ci-test-helper.sh
+          download_test_framework_settings "${{ github.event.inputs.environment || 'staging' }}" "${{ github.event.inputs.region || 'us' }}"
+
+      - name: Install SDKMAN and project env
+        run: |
+          source framework/.ci/ci-test-helper.sh
+          install_sdkman_env
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Make Framework Scripts Executable
         run: |
           chmod +x ${{ github.workspace }}/framework/gradlew
@@ -58,4 +83,5 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
+          AWS_REGION: us-east-1
           PROJECT_DIR: ${{ github.workspace }}/framework
