@@ -21,6 +21,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
     env:
       HAS_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       HAS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -72,7 +73,17 @@ jobs:
           echo "Searching for framework settings files"
           find framework -maxdepth 4 \( -name '*.properties' -o -name '*.json' -o -name '*.yaml' -o -name '*.yml' \) | sort | sed -n '1,120p'
           echo "Searching for env_motive_ai_eld_identifier references"
-          rg -n "env_motive_ai_eld_identifier|motive_ai_eld_identifier|DriverVehicleSettings" framework || true
+          grep -RInE "env_motive_ai_eld_identifier|motive_ai_eld_identifier|DriverVehicleSettings" framework || true
+
+      - name: Validate downloaded framework settings
+        run: |
+          settings_file="framework/gomotive-automation-framework/core/src/main/resources/testFrameworkSettings.${{ github.event.inputs.environment || 'staging' }}.json"
+          if [[ ! -f "${settings_file}" ]]; then
+            echo "Expected framework settings file not found: ${settings_file}"
+            echo "This usually means download_test_framework_settings did not run or could not access AWS Secrets Manager."
+            exit 1
+          fi
+          echo "Found settings file: ${settings_file}"
 
       - name: Install SDKMAN and project env
         run: |
