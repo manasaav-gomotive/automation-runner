@@ -148,6 +148,9 @@ jobs:
           MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
           MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
           MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
+          MOTIVE_MOBILEAPIAUTHORIZATIONKEY: ${{ secrets.MOTIVE_MOBILEAPIAUTHORIZATIONKEY }}
+          MOTIVE_TESTING_API_KEY_STAGING: ${{ secrets.MOTIVE_TESTING_API_KEY_STAGING }}
+          MOTIVE_INTERNAL_API_KEY_STAGING: ${{ secrets.MOTIVE_INTERNAL_API_KEY_STAGING }}
           MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
           MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
         run: |
@@ -162,6 +165,18 @@ jobs:
           fi
           if [[ -z "${MOTIVE_WEBUSERNAMEPASSWORD}" ]]; then
             echo "Missing required secret: MOTIVE_WEBUSERNAMEPASSWORD"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_MOBILEAPIAUTHORIZATIONKEY}" ]]; then
+            echo "Missing required secret: MOTIVE_MOBILEAPIAUTHORIZATIONKEY"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_TESTING_API_KEY_STAGING}" ]]; then
+            echo "Missing required secret: MOTIVE_TESTING_API_KEY_STAGING"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_INTERNAL_API_KEY_STAGING}" ]]; then
+            echo "Missing required secret: MOTIVE_INTERNAL_API_KEY_STAGING"
             missing=1
           fi
           if [[ -z "${MOTIVE_AI_ELD_IDENTIFIER}" ]]; then
