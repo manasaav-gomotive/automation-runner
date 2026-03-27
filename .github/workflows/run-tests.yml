@@ -143,12 +143,27 @@ jobs:
           EOF
           echo "Generated ${env_file}"
 
-      - name: Validate required safety env values
+      - name: Validate required framework env values
         env:
+          MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
+          MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
+          MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
           MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
           MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
         run: |
           missing=0
+          if [[ -z "${MOTIVE_ADMIN_EMAIL}" ]]; then
+            echo "Missing required secret: MOTIVE_ADMIN_EMAIL"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_ADMIN_PASSWORD}" ]]; then
+            echo "Missing required secret: MOTIVE_ADMIN_PASSWORD"
+            missing=1
+          fi
+          if [[ -z "${MOTIVE_WEBUSERNAMEPASSWORD}" ]]; then
+            echo "Missing required secret: MOTIVE_WEBUSERNAMEPASSWORD"
+            missing=1
+          fi
           if [[ -z "${MOTIVE_AI_ELD_IDENTIFIER}" ]]; then
             echo "Missing required secret: MOTIVE_AI_ELD_IDENTIFIER"
             missing=1
@@ -158,7 +173,7 @@ jobs:
             missing=1
           fi
           if [[ "${missing}" -ne 0 ]]; then
-            echo "Safety suite cannot run until the required secrets are configured in this repo/environment."
+            echo "Framework suite cannot run until the required secrets are configured in this repo/environment."
             exit 1
           fi
 
