@@ -128,9 +128,6 @@ on:
           - slb.search.*
           - slb.submitOffer.*
           - slb.suggestedLoads.*
-  push:
-    branches: [ main, automation_runner ]
-
 jobs:
   test:
     runs-on: ubuntu-latest
