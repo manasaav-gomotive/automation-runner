@@ -23,6 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
     env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
+      TEST_POD: ${{ github.event.inputs.suite || 'safety.settings' }}
+      PROJECT: api-system-tests
+      FILTER_ARG: ${{ github.event.inputs.suite || 'safety.settings' }}
+      MOTIVE_TEST_REPORT_BUCKET: motive-automated-test-report
+      REGION: ${{ github.event.inputs.region || 'us' }}
+      AWS_REGION: us-east-1
       HAS_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       HAS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -265,3 +272,11 @@ jobs:
           API_TOKEN: ${{ secrets.API_TOKEN }}
           AWS_REGION: us-east-1
           PROJECT_DIR: ${{ github.workspace }}/framework
+
+      - name: Upload reports on s3
+        if: always()
+        run: |
+          report_id=$(date +%s)
+          upload_intellij_xml_report "$report_id" "api"
+          upload_api_usage_log "$report_id"
+          generate_and_upload_allure_report "$report_id" "api"
