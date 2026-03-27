@@ -1,5 +1,5 @@
 name: Automation Runner
-run-name: "automation-runner-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
+run-name: "automation-runner-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.run_mode == 'group' && github.event.inputs.suite_group || github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
 
 on:
   workflow_dispatch: # Allows manual trigger from GitHub UI
@@ -25,6 +25,14 @@ on:
           - us
           - eu
           - all
+      run_mode:
+        description: Run a single suite or a curated parallel group
+        required: true
+        default: single
+        type: choice
+        options:
+          - single
+          - group
       pod:
         description: Test pod to run
         required: true
@@ -128,16 +136,71 @@ on:
           - slb.search.*
           - slb.submitOffer.*
           - slb.suggestedLoads.*
+      suite_group:
+        description: Curated suite group to run in parallel when run_mode=group
+        required: false
+        default: safety-smoke
+        type: choice
+        options:
+          - safety-smoke
+          - safety-core
+          - safety-driver-subset
 jobs:
+  resolve-suites:
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.select.outputs.suites }}
+      selection_label: ${{ steps.select.outputs.selection_label }}
+    steps:
+      - id: select
+        name: Resolve selected suites
+        run: |
+          run_mode="${{ github.event.inputs.run_mode || 'single' }}"
+          selection_label=""
+          suites_json=""
+
+          if [[ "${run_mode}" == "group" ]]; then
+            selection_label="${{ github.event.inputs.suite_group || 'safety-smoke' }}"
+            case "${selection_label}" in
+              safety-smoke)
+                suites_json='["safety.settings","safety.publicApi.*"]'
+                ;;
+              safety-core)
+                suites_json='["safety.settings","safety.publicApi.*","safety.reports.*"]'
+                ;;
+              safety-driver-subset)
+                suites_json='["safety.settings","safety.safetyDriverApp.*"]'
+                ;;
+              *)
+                echo "Unknown suite group: ${selection_label}"
+                exit 1
+                ;;
+            esac
+          else
+            selection_label="${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
+            suites_json="[\"${selection_label}\"]"
+          fi
+
+          echo "selection_label=${selection_label}" >> "$GITHUB_OUTPUT"
+          echo "suites=${suites_json}" >> "$GITHUB_OUTPUT"
+          echo "Resolved suites: ${suites_json}"
+
   test:
+    needs: resolve-suites
+    name: "${{ matrix.suite }}"
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        suite: ${{ fromJson(needs.resolve-suites.outputs.suites) }}
     env:
       ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
-      SELECTED_SUITE: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
-      TEST_POD: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
+      SELECTED_SUITE: ${{ matrix.suite }}
+      TEST_POD: ${{ matrix.suite }}
       PROJECT: api-system-tests
-      FILTER_ARG: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
+      FILTER_ARG: ${{ matrix.suite }}
       MOTIVE_TEST_REPORT_BUCKET: motive-automated-test-report
       REGION: ${{ github.event.inputs.region || 'us' }}
       AWS_REGION: us-east-1

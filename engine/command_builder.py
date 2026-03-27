@@ -2,6 +2,22 @@ import os
 import shlex
 
 
+def _resolve_suite_pattern(suite, suite_map):
+    if suite in suite_map:
+        return suite_map[suite]
+
+    if suite.startswith("com.gomotive."):
+        return suite
+
+    if "*" in suite:
+        return f"com.gomotive.system.tests.{suite}"
+
+    if "." in suite:
+        return f"com.gomotive.system.tests.{suite}.*"
+
+    return f"com.gomotive.system.tests.{suite}.*"
+
+
 def build_command(env, suite, config, tests=None):
     execution_mode = getattr(config, "execution_mode", "gradle")
 
@@ -55,7 +71,7 @@ def build_command(env, suite, config, tests=None):
 
     # Prefer explicit suite mappings first (even if they contain dots)
     suite_map = getattr(config, "suite_map", {})
-    pattern = suite_map.get(suite, f"*{suite}*")
+    pattern = _resolve_suite_pattern(suite, suite_map)
     base_cmd.extend(["--tests", pattern])
 
     return base_cmd
