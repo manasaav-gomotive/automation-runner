@@ -1,20 +1,133 @@
 name: Automation Runner
+run-name: "automation-runner-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
 
 on:
   workflow_dispatch: # Allows manual trigger from GitHub UI
     inputs:
+      branch:
+        description: Branch or ref to run tests from
+        required: true
+        default: master
       environment:
         description: Target environment
         required: true
         default: staging
+        type: choice
+        options:
+          - staging
+          - preview
       region:
         description: Region used for framework settings download
         required: true
         default: us
-      suite:
-        description: Gradle test class or pattern passed to --tests
+        type: choice
+        options:
+          - us
+          - eu
+          - all
+      pod:
+        description: Test pod to run
         required: true
-        default: SafetySettings
+        default: safety
+        type: choice
+        options:
+          - assetGateway
+          - assetTracking
+          - ciam
+          - coaching
+          - collisionConfidenceTests
+          - compliance
+          - complianceTemporary
+          - cxReports
+          - dataGeneration
+          - deviceExperience
+          - dispatch
+          - eld
+          - enterprisePlatform
+          - fleetFoundation
+          - fleetapp
+          - fleetcard
+          - fuel
+          - growth
+          - internationalization
+          - k2web
+          - maintenance
+          - platform
+          - publicApi
+          - reports
+          - safety
+          - safetyEmail
+          - slb
+          - telematics
+          - wfm
+          - workForceManagement
+      sub_package:
+        description: Sub-package (overrides pod for suite). Leave empty to run entire pod.
+        required: false
+        default: ''
+        type: choice
+        options:
+          - ''
+          - safety.settings
+          - safety.safetyDriverApp
+          - assetGateway.alerts.*
+          - assetGateway.wifiUsage.*
+          - assetTracking.vg5.*
+          - coaching.coachingAssignments.*
+          - coaching.driverDashboard.*
+          - collisionConfidenceTests.VGOnlyTests.*
+          - collisionConfidenceTests.existingCollisionAnnotationFlow.*
+          - collisionConfidenceTests.liveFlowTests.*
+          - collisionConfidenceTests.shadowModeTests.*
+          - collisionConfidenceTests.trialModeTests.*
+          - compliance.complianceVg5.*
+          - complianceTemporary.log.*
+          - enterprisePlatform.alerts.*
+          - fleetFoundation.k2Web.*
+          - fleetFoundation.profileId.*
+          - fleetcard.experience.*
+          - fleetcard.growth.*
+          - fleetcard.integration.*
+          - fleetcard.platform.*
+          - fleetcard.revenueExpansion.*
+          - fleetcard.risk.*
+          - fuel.idlingEvents.*
+          - fuel.overviewFuelRevamp.*
+          - k2web.assetGateway.*
+          - k2web.assetTracking.*
+          - k2web.compliance.*
+          - k2web.deviceExperience.*
+          - k2web.enterprisePlatform.*
+          - k2web.fleetapp.*
+          - k2web.fuel.*
+          - k2web.publicApi.*
+          - maintenance.vg5.*
+          - publicApi.AvailableTime.*
+          - safety.annotationTool.*
+          - safety.fmDashboard.*
+          - safety.fmDashboard.cameras.*
+          - safety.fmDashboard.drivers.*
+          - safety.fmDashboard.events.*
+          - safety.fmDashboard.overview.*
+          - safety.fmDashboard.requests.*
+          - safety.notificationCenter.*
+          - safety.publicApi.*
+          - safety.reports.*
+          - safety.safetyDriverApp.*
+          - safety.settings.*
+          - safety.speeding.*
+          - safety.vg3.*
+          - safety.vg5.*
+          - safety.vg5events.*
+          - safetyEmail.dc54.*
+          - safetyEmail.oc.*
+          - slb.bulk.*
+          - slb.carriers.*
+          - slb.initConfig.*
+          - slb.offers.*
+          - slb.search.*
+          - slb.submitOffer.*
+          - slb.suggestedLoads.*
   push:
     branches: [ main, automation_runner ]
 
@@ -24,9 +137,10 @@ jobs:
     environment: ${{ github.event.inputs.environment || 'staging' }}
     env:
       ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
-      TEST_POD: ${{ github.event.inputs.suite || 'safety.settings' }}
+      SELECTED_SUITE: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
+      TEST_POD: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
       PROJECT: api-system-tests
-      FILTER_ARG: ${{ github.event.inputs.suite || 'safety.settings' }}
+      FILTER_ARG: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
       MOTIVE_TEST_REPORT_BUCKET: motive-automated-test-report
       REGION: ${{ github.event.inputs.region || 'us' }}
       AWS_REGION: us-east-1
@@ -39,6 +153,7 @@ jobs:
         with:
           repository: KeepTruckin/motive-testing-automationframework
           token: ${{ secrets.GH_PAT }}
+          ref: ${{ github.event.inputs.branch || 'master' }}
           path: framework
 
       - name: Checkout Runner (This Repo)
@@ -266,12 +381,13 @@ jobs:
       - name: Run automation runner
         run: |
           cd runner-code
-          python runner.py "${{ github.event.inputs.environment || 'staging' }}" "${{ github.event.inputs.suite || 'safety.settings' }}"
+          python runner.py "${{ github.event.inputs.environment || 'staging' }}" "${SELECTED_SUITE}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
           AWS_REGION: us-east-1
           PROJECT_DIR: ${{ github.workspace }}/framework
+          SELECTED_SUITE: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
 
       - name: Upload reports on s3
         if: always()
