@@ -1,5 +1,5 @@
 name: Automation Runner
-run-name: "automation-runner-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.run_mode == 'group' && github.event.inputs.suite_group || github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
+run-name: "automation-runner-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.run_mode == 'group' && github.event.inputs.suite_group || github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}-${{ github.event.inputs.parallelization_level || 'suite' }}"
 
 on:
   workflow_dispatch: # Allows manual trigger from GitHub UI
@@ -33,6 +33,14 @@ on:
         options:
           - single
           - group
+      parallelization_level:
+        description: Parallelize by suite or by discovered test class
+        required: true
+        default: suite
+        type: choice
+        options:
+          - suite
+          - class
       pod:
         description: Test pod to run
         required: true
@@ -149,58 +157,53 @@ jobs:
   resolve-suites:
     runs-on: ubuntu-latest
     outputs:
-      suites: ${{ steps.select.outputs.suites }}
+      matrix: ${{ steps.select.outputs.matrix }}
       selection_label: ${{ steps.select.outputs.selection_label }}
     steps:
+      - name: Checkout Framework Repo
+        uses: actions/checkout@v5
+        with:
+          repository: KeepTruckin/motive-testing-automationframework
+          token: ${{ secrets.GH_PAT }}
+          ref: ${{ github.event.inputs.branch || 'master' }}
+          path: framework
+
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v5
+        with:
+          path: runner-code
+
       - id: select
         name: Resolve selected suites
         run: |
-          run_mode="${{ github.event.inputs.run_mode || 'single' }}"
-          selection_label=""
-          suites_json=""
-
-          if [[ "${run_mode}" == "group" ]]; then
-            selection_label="${{ github.event.inputs.suite_group || 'safety-smoke' }}"
-            case "${selection_label}" in
-              safety-smoke)
-                suites_json='["safety.settings","safety.publicApi.*"]'
-                ;;
-              safety-core)
-                suites_json='["safety.settings","safety.publicApi.*","safety.reports.*"]'
-                ;;
-              safety-driver-subset)
-                suites_json='["safety.settings","safety.safetyDriverApp.*"]'
-                ;;
-              *)
-                echo "Unknown suite group: ${selection_label}"
-                exit 1
-                ;;
-            esac
-          else
-            selection_label="${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}"
-            suites_json="[\"${selection_label}\"]"
-          fi
-
+          resolved=$(python3 runner-code/scripts/resolve_test_targets.py \
+            "${{ github.event.inputs.run_mode || 'single' }}" \
+            "${{ github.event.inputs.suite_group || 'safety-smoke' }}" \
+            "${{ github.event.inputs.pod || 'safety' }}" \
+            "${{ github.event.inputs.sub_package || '' }}" \
+            "${{ github.event.inputs.parallelization_level || 'suite' }}" \
+            "$GITHUB_WORKSPACE/framework")
+          echo "$resolved"
+          selection_label=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1])["selection_label"])' "$resolved")
+          matrix=$(python3 -c 'import json,sys; print(json.dumps(json.loads(sys.argv[1])["matrix"]))' "$resolved")
           echo "selection_label=${selection_label}" >> "$GITHUB_OUTPUT"
-          echo "suites=${suites_json}" >> "$GITHUB_OUTPUT"
-          echo "Resolved suites: ${suites_json}"
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
   test:
     needs: resolve-suites
-    name: "${{ matrix.suite }}"
+    name: "${{ matrix.label }}"
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
     strategy:
       fail-fast: false
       max-parallel: 3
-      matrix:
-        suite: ${{ fromJson(needs.resolve-suites.outputs.suites) }}
+      matrix: ${{ fromJson(needs.resolve-suites.outputs.matrix) }}
     env:
       ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
-      SELECTED_SUITE: ${{ matrix.suite }}
-      TEST_POD: ${{ matrix.suite }}
+      SELECTED_SUITE: ${{ matrix.target }}
+      TEST_POD: ${{ matrix.label }}
       PROJECT: api-system-tests
-      FILTER_ARG: ${{ matrix.suite }}
+      FILTER_ARG: ${{ matrix.target }}
       MOTIVE_TEST_REPORT_BUCKET: motive-automated-test-report
       REGION: ${{ github.event.inputs.region || 'us' }}
       AWS_REGION: us-east-1
