@@ -125,6 +125,21 @@ jobs:
           MOTIVE_SAFETY1_DRIVER_ID=${MOTIVE_SAFETY1_DRIVER_ID}
           MOTIVE_SAFETY1_DRIVER_EMAIL=${MOTIVE_SAFETY1_DRIVER_EMAIL}
           MOTIVE_SAFETY1_DRIVER_PASSWORD=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
+          motive_admin_email=${MOTIVE_ADMIN_EMAIL}
+          motive_admin_password=${MOTIVE_ADMIN_PASSWORD}
+          motive_webusernamepassword=${MOTIVE_WEBUSERNAMEPASSWORD}
+          motive_admin_console_email=${MOTIVE_ADMIN_CONSOLE_EMAIL}
+          motive_admin_console_password=${MOTIVE_ADMIN_CONSOLE_PASSWORD}
+          motive_ai_driver_email_id=${MOTIVE_AI_DRIVER_EMAIL_ID}
+          motive_ai_driver_password=${MOTIVE_AI_DRIVER_PASSWORD}
+          motive_ai_vehicle_id=${MOTIVE_AI_VEHICLE_ID}
+          motive_ai_eld_device_id=${MOTIVE_AI_ELD_DEVICE_ID}
+          motive_ai_eld_identifier=${MOTIVE_AI_ELD_IDENTIFIER}
+          motive_camera_serialnumber=${MOTIVE_CAMERA_SERIALNUMBER}
+          motive_safety1_vehicle_id=${MOTIVE_SAFETY1_VEHICLE_ID}
+          motive_safety1_driver_id=${MOTIVE_SAFETY1_DRIVER_ID}
+          motive_safety1_driver_email=${MOTIVE_SAFETY1_DRIVER_EMAIL}
+          motive_safety1_driver_password=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
           EOF
           echo "Generated ${env_file}"
 
