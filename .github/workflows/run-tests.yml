@@ -113,6 +113,12 @@ jobs:
           MOTIVE_SAFETY1_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY1_DRIVER_ID }}
           MOTIVE_SAFETY1_DRIVER_EMAIL: ${{ secrets.MOTIVE_SAFETY1_DRIVER_EMAIL }}
           MOTIVE_SAFETY1_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY1_DRIVER_PASSWORD }}
+          MOTIVE_SAFETY2_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY2_VEHICLE_ID }}
+          MOTIVE_SAFETY2_ELD_DEVICE_ID: ${{ secrets.MOTIVE_SAFETY2_ELD_DEVICE_ID }}
+          MOTIVE_SAFETY2_ELD_IDENTIFIER: ${{ secrets.MOTIVE_SAFETY2_ELD_IDENTIFIER }}
+          MOTIVE_SAFETY2_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_ID }}
+          MOTIVE_SAFETY2_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_EMAIL_ID }}
+          MOTIVE_SAFETY2_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY2_DRIVER_PASSWORD }}
         run: |
           env_file="framework/gomotive-automation-framework/core/src/main/resources/.env"
           cat > "${env_file}" <<EOF
@@ -140,6 +146,12 @@ jobs:
           MOTIVE_SAFETY1_DRIVER_ID=${MOTIVE_SAFETY1_DRIVER_ID}
           MOTIVE_SAFETY1_DRIVER_EMAIL=${MOTIVE_SAFETY1_DRIVER_EMAIL}
           MOTIVE_SAFETY1_DRIVER_PASSWORD=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
+          MOTIVE_SAFETY2_VEHICLE_ID=${MOTIVE_SAFETY2_VEHICLE_ID}
+          MOTIVE_SAFETY2_ELD_DEVICE_ID=${MOTIVE_SAFETY2_ELD_DEVICE_ID}
+          MOTIVE_SAFETY2_ELD_IDENTIFIER=${MOTIVE_SAFETY2_ELD_IDENTIFIER}
+          MOTIVE_SAFETY2_DRIVER_ID=${MOTIVE_SAFETY2_DRIVER_ID}
+          MOTIVE_SAFETY2_DRIVER_EMAIL_ID=${MOTIVE_SAFETY2_DRIVER_EMAIL_ID}
+          MOTIVE_SAFETY2_DRIVER_PASSWORD=${MOTIVE_SAFETY2_DRIVER_PASSWORD}
           motive_admin_email=${MOTIVE_ADMIN_EMAIL}
           motive_admin_password=${MOTIVE_ADMIN_PASSWORD}
           motive_webusernamepassword=${MOTIVE_WEBUSERNAMEPASSWORD}
@@ -164,6 +176,12 @@ jobs:
           motive_safety1_driver_id=${MOTIVE_SAFETY1_DRIVER_ID}
           motive_safety1_driver_email=${MOTIVE_SAFETY1_DRIVER_EMAIL}
           motive_safety1_driver_password=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
+          motive_safety2_vehicle_id=${MOTIVE_SAFETY2_VEHICLE_ID}
+          motive_safety2_eld_device_id=${MOTIVE_SAFETY2_ELD_DEVICE_ID}
+          motive_safety2_eld_identifier=${MOTIVE_SAFETY2_ELD_IDENTIFIER}
+          motive_safety2_driver_id=${MOTIVE_SAFETY2_DRIVER_ID}
+          motive_safety2_driver_email_id=${MOTIVE_SAFETY2_DRIVER_EMAIL_ID}
+          motive_safety2_driver_password=${MOTIVE_SAFETY2_DRIVER_PASSWORD}
           EOF
           echo "Generated ${env_file}"
 
