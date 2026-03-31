@@ -41,6 +41,14 @@ on:
         options:
           - suite
           - class
+      execution_runtime:
+        description: Run directly on the GitHub runner or inside the shared Docker image
+        required: true
+        default: host
+        type: choice
+        options:
+          - host
+          - docker
       pod:
         description: Test pod to run
         required: true
@@ -189,8 +197,36 @@ jobs:
           echo "selection_label=${selection_label}" >> "$GITHUB_OUTPUT"
           echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
-  test:
+  build-runtime-image:
     needs: resolve-suites
+    if: ${{ github.event.inputs.execution_runtime == 'docker' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v5
+
+      - name: Build test-runner image
+        run: |
+          docker build \
+            --build-arg GH_PAT="${{ secrets.GH_PAT }}" \
+            --build-arg FRAMEWORK_REF="${{ github.event.inputs.branch || 'master' }}" \
+            -t automation-runner:test-runtime .
+
+      - name: Save test-runner image
+        run: docker save automation-runner:test-runtime -o /tmp/automation-runner-test-runtime.tar
+
+      - name: Upload test-runner image
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-runner-test-runtime
+          path: /tmp/automation-runner-test-runtime.tar
+          retention-days: 1
+
+  test:
+    needs:
+      - resolve-suites
+      - build-runtime-image
+    if: ${{ always() && needs.resolve-suites.result == 'success' && (needs.build-runtime-image.result == 'success' || needs.build-runtime-image.result == 'skipped') }}
     name: "${{ matrix.label }}"
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
@@ -209,6 +245,7 @@ jobs:
       AWS_REGION: us-east-1
       HAS_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       HAS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      EXECUTION_RUNTIME: ${{ github.event.inputs.execution_runtime || 'host' }}
 
     steps:
       - name: Checkout Framework Repo
@@ -223,6 +260,17 @@ jobs:
         uses: actions/checkout@v5
         with:
           path: runner-code
+
+      - name: Download test-runner image
+        if: ${{ env.EXECUTION_RUNTIME == 'docker' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: automation-runner-test-runtime
+          path: /tmp
+
+      - name: Load test-runner image
+        if: ${{ env.EXECUTION_RUNTIME == 'docker' }}
+        run: docker load -i /tmp/automation-runner-test-runtime.tar
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -305,70 +353,9 @@ jobs:
           MOTIVE_SAFETY2_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_EMAIL_ID }}
           MOTIVE_SAFETY2_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY2_DRIVER_PASSWORD }}
         run: |
-          env_file="framework/gomotive-automation-framework/core/src/main/resources/.env"
-          cat > "${env_file}" <<EOF
-          MOTIVE_ADMIN_EMAIL=${MOTIVE_ADMIN_EMAIL}
-          MOTIVE_ADMIN_PASSWORD=${MOTIVE_ADMIN_PASSWORD}
-          MOTIVE_WEBUSERNAMEPASSWORD=${MOTIVE_WEBUSERNAMEPASSWORD}
-          MOTIVE_DRIVER_EMAIL=${MOTIVE_DRIVER_EMAIL}
-          MOTIVE_DRIVER_PASSWORD=${MOTIVE_DRIVER_PASSWORD}
-          MOTIVE_ADMIN_CONSOLE_EMAIL=${MOTIVE_ADMIN_CONSOLE_EMAIL}
-          MOTIVE_ADMIN_CONSOLE_PASSWORD=${MOTIVE_ADMIN_CONSOLE_PASSWORD}
-          MOTIVE_ELDAPIKEY_STAGING=${MOTIVE_ELDAPIKEY_STAGING}
-          MOTIVE_ELDAPIKEY=${MOTIVE_ELDAPIKEY_STAGING}
-          MOTIVE_MOBILEAPIAUTHORIZATIONKEY=${MOTIVE_MOBILEAPIAUTHORIZATIONKEY}
-          MOTIVE_TESTING_API_KEY_STAGING=${MOTIVE_TESTING_API_KEY_STAGING}
-          MOTIVE_TESTING_API_KEY=${MOTIVE_TESTING_API_KEY_STAGING}
-          MOTIVE_INTERNAL_API_KEY_STAGING=${MOTIVE_INTERNAL_API_KEY_STAGING}
-          MOTIVE_INTERNAL_API_KEY=${MOTIVE_INTERNAL_API_KEY_STAGING}
-          MOTIVE_AI_DRIVER_EMAIL_ID=${MOTIVE_AI_DRIVER_EMAIL_ID}
-          MOTIVE_AI_DRIVER_PASSWORD=${MOTIVE_AI_DRIVER_PASSWORD}
-          MOTIVE_AI_VEHICLE_ID=${MOTIVE_AI_VEHICLE_ID}
-          MOTIVE_AI_ELD_DEVICE_ID=${MOTIVE_AI_ELD_DEVICE_ID}
-          MOTIVE_AI_ELD_IDENTIFIER=${MOTIVE_AI_ELD_IDENTIFIER}
-          MOTIVE_CAMERA_SERIALNUMBER=${MOTIVE_CAMERA_SERIALNUMBER}
-          MOTIVE_SAFETY1_VEHICLE_ID=${MOTIVE_SAFETY1_VEHICLE_ID}
-          MOTIVE_SAFETY1_DRIVER_ID=${MOTIVE_SAFETY1_DRIVER_ID}
-          MOTIVE_SAFETY1_DRIVER_EMAIL=${MOTIVE_SAFETY1_DRIVER_EMAIL}
-          MOTIVE_SAFETY1_DRIVER_PASSWORD=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
-          MOTIVE_SAFETY2_VEHICLE_ID=${MOTIVE_SAFETY2_VEHICLE_ID}
-          MOTIVE_SAFETY2_ELD_DEVICE_ID=${MOTIVE_SAFETY2_ELD_DEVICE_ID}
-          MOTIVE_SAFETY2_ELD_IDENTIFIER=${MOTIVE_SAFETY2_ELD_IDENTIFIER}
-          MOTIVE_SAFETY2_DRIVER_ID=${MOTIVE_SAFETY2_DRIVER_ID}
-          MOTIVE_SAFETY2_DRIVER_EMAIL_ID=${MOTIVE_SAFETY2_DRIVER_EMAIL_ID}
-          MOTIVE_SAFETY2_DRIVER_PASSWORD=${MOTIVE_SAFETY2_DRIVER_PASSWORD}
-          motive_admin_email=${MOTIVE_ADMIN_EMAIL}
-          motive_admin_password=${MOTIVE_ADMIN_PASSWORD}
-          motive_webusernamepassword=${MOTIVE_WEBUSERNAMEPASSWORD}
-          motive_driver_email=${MOTIVE_DRIVER_EMAIL}
-          motive_driver_password=${MOTIVE_DRIVER_PASSWORD}
-          motive_admin_console_email=${MOTIVE_ADMIN_CONSOLE_EMAIL}
-          motive_admin_console_password=${MOTIVE_ADMIN_CONSOLE_PASSWORD}
-          motive_eldapikey_staging=${MOTIVE_ELDAPIKEY_STAGING}
-          motive_eldapikey=${MOTIVE_ELDAPIKEY_STAGING}
-          motive_mobileapiauthorizationkey=${MOTIVE_MOBILEAPIAUTHORIZATIONKEY}
-          motive_testing_api_key_staging=${MOTIVE_TESTING_API_KEY_STAGING}
-          motive_testing_api_key=${MOTIVE_TESTING_API_KEY_STAGING}
-          motive_internal_api_key_staging=${MOTIVE_INTERNAL_API_KEY_STAGING}
-          motive_internal_api_key=${MOTIVE_INTERNAL_API_KEY_STAGING}
-          motive_ai_driver_email_id=${MOTIVE_AI_DRIVER_EMAIL_ID}
-          motive_ai_driver_password=${MOTIVE_AI_DRIVER_PASSWORD}
-          motive_ai_vehicle_id=${MOTIVE_AI_VEHICLE_ID}
-          motive_ai_eld_device_id=${MOTIVE_AI_ELD_DEVICE_ID}
-          motive_ai_eld_identifier=${MOTIVE_AI_ELD_IDENTIFIER}
-          motive_camera_serialnumber=${MOTIVE_CAMERA_SERIALNUMBER}
-          motive_safety1_vehicle_id=${MOTIVE_SAFETY1_VEHICLE_ID}
-          motive_safety1_driver_id=${MOTIVE_SAFETY1_DRIVER_ID}
-          motive_safety1_driver_email=${MOTIVE_SAFETY1_DRIVER_EMAIL}
-          motive_safety1_driver_password=${MOTIVE_SAFETY1_DRIVER_PASSWORD}
-          motive_safety2_vehicle_id=${MOTIVE_SAFETY2_VEHICLE_ID}
-          motive_safety2_eld_device_id=${MOTIVE_SAFETY2_ELD_DEVICE_ID}
-          motive_safety2_eld_identifier=${MOTIVE_SAFETY2_ELD_IDENTIFIER}
-          motive_safety2_driver_id=${MOTIVE_SAFETY2_DRIVER_ID}
-          motive_safety2_driver_email_id=${MOTIVE_SAFETY2_DRIVER_EMAIL_ID}
-          motive_safety2_driver_password=${MOTIVE_SAFETY2_DRIVER_PASSWORD}
-          EOF
-          echo "Generated ${env_file}"
+          export FRAMEWORK_DIR="${GITHUB_WORKSPACE}/framework"
+          export PROJECT_DIR="${FRAMEWORK_DIR}"
+          runner-code/scripts/generate_framework_env.sh
 
       - name: Validate required framework env values
         env:
@@ -425,23 +412,28 @@ jobs:
           fi
 
       - name: Install SDKMAN and project env
+        if: ${{ env.EXECUTION_RUNTIME == 'host' }}
         run: |
           cd framework
           install_sdkman_env
 
       - name: Setup Gradle
+        if: ${{ env.EXECUTION_RUNTIME == 'host' }}
         uses: gradle/actions/setup-gradle@v4
 
       - name: Make Framework Scripts Executable
+        if: ${{ env.EXECUTION_RUNTIME == 'host' }}
         run: |
           chmod +x ${{ github.workspace }}/framework/gradlew
 
       - name: Install dependencies
+        if: ${{ env.EXECUTION_RUNTIME == 'host' }}
         run: |
           cd runner-code
           pip install -r requirements.txt
 
       - name: Run automation runner
+        if: ${{ env.EXECUTION_RUNTIME == 'host' }}
         run: |
           cd runner-code
           python runner.py "${{ github.event.inputs.environment || 'staging' }}" "${SELECTED_SUITE}"
@@ -450,10 +442,50 @@ jobs:
           API_TOKEN: ${{ secrets.API_TOKEN }}
           AWS_REGION: us-east-1
           PROJECT_DIR: ${{ github.workspace }}/framework
-          SELECTED_SUITE: ${{ github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}
+          SELECTED_SUITE: ${{ matrix.target }}
+
+      - name: Run automation runner in Docker
+        if: ${{ env.EXECUTION_RUNTIME == 'docker' }}
+        env:
+          RUNNER_IMAGE: automation-runner:test-runtime
+          TARGET_SUITE: ${{ matrix.target }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
+          MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
+          MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
+          MOTIVE_DRIVER_EMAIL: ${{ secrets.MOTIVE_DRIVER_EMAIL }}
+          MOTIVE_DRIVER_PASSWORD: ${{ secrets.MOTIVE_DRIVER_PASSWORD }}
+          MOTIVE_ADMIN_CONSOLE_EMAIL: ${{ secrets.MOTIVE_ADMIN_CONSOLE_EMAIL }}
+          MOTIVE_ADMIN_CONSOLE_PASSWORD: ${{ secrets.MOTIVE_ADMIN_CONSOLE_PASSWORD }}
+          MOTIVE_ELDAPIKEY_STAGING: ${{ secrets.MOTIVE_ELDAPIKEY_STAGING }}
+          MOTIVE_MOBILEAPIAUTHORIZATIONKEY: ${{ secrets.MOTIVE_MOBILEAPIAUTHORIZATIONKEY }}
+          MOTIVE_TESTING_API_KEY_STAGING: ${{ secrets.MOTIVE_TESTING_API_KEY_STAGING }}
+          MOTIVE_INTERNAL_API_KEY_STAGING: ${{ secrets.MOTIVE_INTERNAL_API_KEY_STAGING }}
+          MOTIVE_AI_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_AI_DRIVER_EMAIL_ID }}
+          MOTIVE_AI_DRIVER_PASSWORD: ${{ secrets.MOTIVE_AI_DRIVER_PASSWORD }}
+          MOTIVE_AI_VEHICLE_ID: ${{ secrets.MOTIVE_AI_VEHICLE_ID }}
+          MOTIVE_AI_ELD_DEVICE_ID: ${{ secrets.MOTIVE_AI_ELD_DEVICE_ID }}
+          MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
+          MOTIVE_CAMERA_SERIALNUMBER: ${{ secrets.MOTIVE_CAMERA_SERIALNUMBER }}
+          MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
+          MOTIVE_SAFETY1_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY1_DRIVER_ID }}
+          MOTIVE_SAFETY1_DRIVER_EMAIL: ${{ secrets.MOTIVE_SAFETY1_DRIVER_EMAIL }}
+          MOTIVE_SAFETY1_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY1_DRIVER_PASSWORD }}
+          MOTIVE_SAFETY2_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY2_VEHICLE_ID }}
+          MOTIVE_SAFETY2_ELD_DEVICE_ID: ${{ secrets.MOTIVE_SAFETY2_ELD_DEVICE_ID }}
+          MOTIVE_SAFETY2_ELD_IDENTIFIER: ${{ secrets.MOTIVE_SAFETY2_ELD_IDENTIFIER }}
+          MOTIVE_SAFETY2_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_ID }}
+          MOTIVE_SAFETY2_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_EMAIL_ID }}
+          MOTIVE_SAFETY2_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY2_DRIVER_PASSWORD }}
+        run: |
+          bash runner-code/scripts/run_in_docker.sh
 
       - name: Upload reports on s3
-        if: always()
+        if: ${{ always() && env.EXECUTION_RUNTIME == 'host' }}
         run: |
           report_id=$(date +%s)
           upload_intellij_xml_report "$report_id" "api"

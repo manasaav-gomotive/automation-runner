@@ -12,12 +12,24 @@ target_file="${target_dir}/.env"
 
 mkdir -p "${target_dir}"
 
-# The framework resolves placeholders against dotenv entries. We persist the
-# injected runtime secrets here instead of hardcoding a fixed key list.
-env | sort | awk -F= '
-  /^(MOTIVE_|motive_|FC_|MARQETA_|TWILIO_|VRT_|COMMENT=)/ {
-    print
-  }
-' > "${target_file}"
+python3 - <<'PY' > "${target_file}"
+import os
+
+allowed_prefixes = ("MOTIVE_", "motive_", "FC_", "MARQETA_", "TWILIO_", "VRT_")
+entries = []
+
+for key, value in sorted(os.environ.items()):
+    if key == "COMMENT" or key.startswith(allowed_prefixes):
+        entries.append((key, value))
+        if key.isupper() and key != "COMMENT":
+            entries.append((key.lower(), value))
+
+seen = set()
+for key, value in entries:
+    if key in seen:
+        continue
+    seen.add(key)
+    print(f"{key}={value}")
+PY
 
 echo "Generated framework env file at ${target_file}"
