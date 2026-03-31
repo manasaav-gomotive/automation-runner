@@ -17,17 +17,12 @@ on:
         required: false
         default: ""
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     environment: staging
     env:
       AWS_REGION: us-east-1
-      AWS_ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
       ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY || 'automation-runner-test-runtime' }}
     steps:
       - name: Checkout Runner (This Repo)
@@ -35,18 +30,11 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch || 'automation_runner' }}
 
-      - name: Validate AWS role configuration
-        run: |
-          if [[ -z "${AWS_ROLE_ARN}" ]]; then
-            echo "Missing required variable: AWS_ROLE_ARN"
-            exit 1
-          fi
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}
-          role-session-name: build-test-runner-image-${{ github.run_id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
