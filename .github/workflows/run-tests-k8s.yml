@@ -1,0 +1,326 @@
+name: Automation Runner K8s
+run-name: "automation-runner-k8s-${{ github.event.inputs.environment || 'staging' }}-${{ github.event.inputs.run_mode == 'group' && github.event.inputs.suite_group || github.event.inputs.sub_package || github.event.inputs.pod || 'safety.settings' }}-${{ github.event.inputs.parallelization_level || 'suite' }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch or ref to run tests from
+        required: true
+        default: master
+      environment:
+        description: Target environment
+        required: true
+        default: staging
+        type: choice
+        options:
+          - staging
+          - preview
+      region:
+        description: Region used for framework settings download
+        required: true
+        default: us
+        type: choice
+        options:
+          - us
+          - eu
+      run_mode:
+        description: Run a single suite or a curated parallel group
+        required: true
+        default: single
+        type: choice
+        options:
+          - single
+          - group
+      parallelization_level:
+        description: Parallelize by suite or by discovered test class
+        required: true
+        default: suite
+        type: choice
+        options:
+          - suite
+          - class
+      pod:
+        description: Test pod to run
+        required: true
+        default: safety
+        type: choice
+        options:
+          - assetGateway
+          - assetTracking
+          - ciam
+          - coaching
+          - collisionConfidenceTests
+          - compliance
+          - complianceTemporary
+          - cxReports
+          - dataGeneration
+          - deviceExperience
+          - dispatch
+          - eld
+          - enterprisePlatform
+          - fleetFoundation
+          - fleetapp
+          - fleetcard
+          - fuel
+          - growth
+          - internationalization
+          - k2web
+          - maintenance
+          - platform
+          - publicApi
+          - reports
+          - safety
+          - safetyEmail
+          - slb
+          - telematics
+          - wfm
+          - workForceManagement
+      sub_package:
+        description: Sub-package (overrides pod for suite). Leave empty to run entire pod.
+        required: false
+        default: ''
+        type: choice
+        options:
+          - ''
+          - safety.settings
+          - safety.safetyDriverApp
+          - assetGateway.alerts.*
+          - assetGateway.wifiUsage.*
+          - assetTracking.vg5.*
+          - coaching.coachingAssignments.*
+          - coaching.driverDashboard.*
+          - collisionConfidenceTests.VGOnlyTests.*
+          - collisionConfidenceTests.existingCollisionAnnotationFlow.*
+          - collisionConfidenceTests.liveFlowTests.*
+          - collisionConfidenceTests.shadowModeTests.*
+          - collisionConfidenceTests.trialModeTests.*
+          - compliance.complianceVg5.*
+          - complianceTemporary.log.*
+          - enterprisePlatform.alerts.*
+          - fleetFoundation.k2Web.*
+          - fleetFoundation.profileId.*
+          - fleetcard.experience.*
+          - fleetcard.growth.*
+          - fleetcard.integration.*
+          - fleetcard.platform.*
+          - fleetcard.revenueExpansion.*
+          - fleetcard.risk.*
+          - fuel.idlingEvents.*
+          - fuel.overviewFuelRevamp.*
+          - k2web.assetGateway.*
+          - k2web.assetTracking.*
+          - k2web.compliance.*
+          - k2web.deviceExperience.*
+          - k2web.enterprisePlatform.*
+          - k2web.fleetapp.*
+          - k2web.fuel.*
+          - k2web.publicApi.*
+          - maintenance.vg5.*
+          - publicApi.AvailableTime.*
+          - safety.annotationTool.*
+          - safety.fmDashboard.*
+          - safety.fmDashboard.cameras.*
+          - safety.fmDashboard.drivers.*
+          - safety.fmDashboard.events.*
+          - safety.fmDashboard.overview.*
+          - safety.fmDashboard.requests.*
+          - safety.notificationCenter.*
+          - safety.publicApi.*
+          - safety.reports.*
+          - safety.safetyDriverApp.*
+          - safety.settings.*
+          - safety.speeding.*
+          - safety.vg3.*
+          - safety.vg5.*
+          - safety.vg5events.*
+          - safetyEmail.dc54.*
+          - safetyEmail.oc.*
+          - slb.bulk.*
+          - slb.carriers.*
+          - slb.initConfig.*
+          - slb.offers.*
+          - slb.search.*
+          - slb.submitOffer.*
+          - slb.suggestedLoads.*
+      suite_group:
+        description: Curated suite group to run in parallel when run_mode=group
+        required: false
+        default: safety-smoke
+        type: choice
+        options:
+          - safety-smoke
+          - safety-core
+          - safety-driver-subset
+
+jobs:
+  resolve-targets:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.select.outputs.matrix }}
+      selection_label: ${{ steps.select.outputs.selection_label }}
+    steps:
+      - name: Checkout Framework Repo
+        uses: actions/checkout@v5
+        with:
+          repository: KeepTruckin/motive-testing-automationframework
+          token: ${{ secrets.GH_PAT }}
+          ref: ${{ github.event.inputs.branch || 'master' }}
+          path: framework
+
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v5
+        with:
+          path: runner-code
+
+      - id: select
+        name: Resolve selected targets
+        run: |
+          resolved=$(python3 runner-code/scripts/resolve_test_targets.py \
+            "${{ github.event.inputs.run_mode || 'single' }}" \
+            "${{ github.event.inputs.suite_group || 'safety-smoke' }}" \
+            "${{ github.event.inputs.pod || 'safety' }}" \
+            "${{ github.event.inputs.sub_package || '' }}" \
+            "${{ github.event.inputs.parallelization_level || 'suite' }}" \
+            "$GITHUB_WORKSPACE/framework")
+          echo "$resolved"
+          selection_label=$(python3 -c 'import json,sys; print(json.loads(sys.argv[1])["selection_label"])' "$resolved")
+          matrix=$(python3 -c 'import json,sys; print(json.dumps(json.loads(sys.argv[1])["matrix"]))' "$resolved")
+          echo "selection_label=${selection_label}" >> "$GITHUB_OUTPUT"
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
+
+  run-k8s-job:
+    needs: resolve-targets
+    name: "${{ matrix.label }}"
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJson(needs.resolve-targets.outputs.matrix) }}
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
+      REGION: ${{ github.event.inputs.region || 'us' }}
+      BRANCH: ${{ github.event.inputs.branch || 'master' }}
+      TARGET_SUITE: ${{ matrix.target }}
+      TARGET_LABEL: ${{ matrix.label }}
+      SOURCE_SUITE: ${{ matrix.source_suite }}
+      K8S_NAMESPACE: ${{ vars.K8S_NAMESPACE || 'qa-automation' }}
+      K8S_IMAGE: ${{ vars.K8S_TEST_RUNNER_IMAGE || 'ghcr.io/manasaav-gomotive/automation-runner:latest' }}
+      REPORT_BUCKET: motive-automated-test-report
+
+    steps:
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v5
+        with:
+          path: runner-code
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configure kubeconfig
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          if [[ -z "${KUBE_CONFIG_DATA}" ]]; then
+            echo "Missing required secret: KUBE_CONFIG_DATA"
+            exit 1
+          fi
+          mkdir -p "${HOME}/.kube"
+          echo "${KUBE_CONFIG_DATA}" | base64 --decode > "${HOME}/.kube/config"
+          chmod 600 "${HOME}/.kube/config"
+
+      - name: Submit Kubernetes Job
+        id: submit
+        run: |
+          report_id=$(date +%s)
+          suite_slug=$(echo "${TARGET_LABEL}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//' | cut -c1-40)
+          job_name="automation-runner-${suite_slug}-${report_id}"
+
+          cat > job.yaml <<EOF
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: ${job_name}
+            namespace: ${K8S_NAMESPACE}
+            labels:
+              app: automation-runner
+              report-id: "${report_id}"
+              target-label: "${TARGET_LABEL}"
+          spec:
+            backoffLimit: 0
+            ttlSecondsAfterFinished: 3600
+            template:
+              metadata:
+                labels:
+                  app: automation-runner
+                  job-name: ${job_name}
+              spec:
+                restartPolicy: Never
+                containers:
+                  - name: test-runner
+                    image: ${K8S_IMAGE}
+                    imagePullPolicy: Always
+                    env:
+                      - name: BRANCH
+                        value: "${BRANCH}"
+                      - name: ENVIRONMENT
+                        value: "${ENVIRONMENT}"
+                      - name: REGION
+                        value: "${REGION}"
+                      - name: TARGET_SUITE
+                        value: "${TARGET_SUITE}"
+                      - name: TARGET_LABEL
+                        value: "${TARGET_LABEL}"
+                      - name: SOURCE_SUITE
+                        value: "${SOURCE_SUITE}"
+                      - name: REPORT_ID
+                        value: "${report_id}"
+                      - name: PROJECT
+                        value: "api-system-tests"
+                      - name: MOTIVE_TEST_REPORT_BUCKET
+                        value: "${REPORT_BUCKET}"
+                    envFrom:
+                      - secretRef:
+                          name: automation-runner-secrets
+                    command:
+                      - /bin/bash
+                      - -lc
+                    args:
+                      - |
+                        set -euo pipefail
+                        git clone --branch "$BRANCH" https://github.com/KeepTruckin/motive-testing-automationframework.git framework
+                        git clone --branch automation_runner https://github.com/manasaav-gomotive/automation-runner.git runner-code
+                        export PROJECT_DIR="$PWD/framework"
+                        export BASH_ENV="$PWD/framework/.ci/ci-test-helper.sh"
+                        source "$BASH_ENV"
+                        download_test_framework_settings "$ENVIRONMENT" "$REGION"
+                        cd runner-code
+                        python runner.py "$ENVIRONMENT" "$TARGET_SUITE"
+                        cd ../framework
+                        upload_intellij_xml_report "$REPORT_ID" "api"
+                        upload_api_usage_log "$REPORT_ID"
+                        generate_and_upload_allure_report "$REPORT_ID" "api"
+          EOF
+
+          kubectl apply -f job.yaml
+          echo "job_name=${job_name}" >> "$GITHUB_OUTPUT"
+          echo "report_id=${report_id}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for Kubernetes Job
+        run: |
+          kubectl wait --namespace "${K8S_NAMESPACE}" --for=condition=complete "job/${{ steps.submit.outputs.job_name }}" --timeout=120m || {
+            echo "Job did not complete successfully. Fetching diagnostics."
+            kubectl get job "${{ steps.submit.outputs.job_name }}" -n "${K8S_NAMESPACE}" -o wide || true
+            kubectl get pods -n "${K8S_NAMESPACE}" -l job-name="${{ steps.submit.outputs.job_name }}" -o wide || true
+            kubectl logs -n "${K8S_NAMESPACE}" -l job-name="${{ steps.submit.outputs.job_name }}" --all-containers=true --tail=-1 || true
+            exit 1
+          }
+
+      - name: Print job summary
+        if: always()
+        run: |
+          echo "Kubernetes job: ${{ steps.submit.outputs.job_name }}"
+          echo "Report id: ${{ steps.submit.outputs.report_id }}"
+          echo "Target: ${TARGET_SUITE}"
+          echo "Namespace: ${K8S_NAMESPACE}"
