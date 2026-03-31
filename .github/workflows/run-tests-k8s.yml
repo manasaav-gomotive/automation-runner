@@ -206,8 +206,10 @@ jobs:
       TARGET_LABEL: ${{ matrix.label }}
       SOURCE_SUITE: ${{ matrix.source_suite }}
       K8S_NAMESPACE: ${{ vars.K8S_NAMESPACE || 'qa-automation' }}
+      EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }}
       K8S_IMAGE: ${{ vars.K8S_TEST_RUNNER_IMAGE || 'ghcr.io/manasaav-gomotive/automation-runner:latest' }}
       REPORT_BUCKET: motive-automated-test-report
+      AWS_REGION: us-east-1
 
     steps:
       - name: Checkout Runner (This Repo)
@@ -215,20 +217,24 @@ jobs:
         with:
           path: runner-code
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
 
-      - name: Configure kubeconfig
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      - name: Configure kubeconfig from EKS
         run: |
-          if [[ -z "${KUBE_CONFIG_DATA}" ]]; then
-            echo "Missing required secret: KUBE_CONFIG_DATA"
+          if [[ -z "${EKS_CLUSTER_NAME}" ]]; then
+            echo "Missing required variable: EKS_CLUSTER_NAME"
             exit 1
           fi
-          mkdir -p "${HOME}/.kube"
-          echo "${KUBE_CONFIG_DATA}" | base64 --decode > "${HOME}/.kube/config"
-          chmod 600 "${HOME}/.kube/config"
+          aws eks update-kubeconfig --name "${EKS_CLUSTER_NAME}" --region "${AWS_REGION}"
+          kubectl config current-context
 
       - name: Submit Kubernetes Job
         id: submit
@@ -262,6 +268,10 @@ jobs:
                     image: ${K8S_IMAGE}
                     imagePullPolicy: Always
                     env:
+                      - name: RUNNER_DIR
+                        value: "/opt/automation-runner"
+                      - name: FRAMEWORK_DIR
+                        value: "/opt/motive-testing-automationframework"
                       - name: BRANCH
                         value: "${BRANCH}"
                       - name: ENVIRONMENT
@@ -289,15 +299,18 @@ jobs:
                     args:
                       - |
                         set -euo pipefail
-                        git clone --branch "$BRANCH" https://github.com/KeepTruckin/motive-testing-automationframework.git framework
-                        git clone --branch automation_runner https://github.com/manasaav-gomotive/automation-runner.git runner-code
-                        export PROJECT_DIR="$PWD/framework"
-                        export BASH_ENV="$PWD/framework/.ci/ci-test-helper.sh"
+                        export PROJECT_DIR="${FRAMEWORK_DIR}"
+                        export BASH_ENV="${FRAMEWORK_DIR}/.ci/ci-test-helper.sh"
+                        if [[ ! -f "${BASH_ENV}" ]]; then
+                          echo "Framework helper not found at ${BASH_ENV}"
+                          exit 1
+                        fi
                         source "$BASH_ENV"
+                        "${RUNNER_DIR}/scripts/generate_framework_env.sh"
                         download_test_framework_settings "$ENVIRONMENT" "$REGION"
-                        cd runner-code
+                        cd "${RUNNER_DIR}"
                         python runner.py "$ENVIRONMENT" "$TARGET_SUITE"
-                        cd ../framework
+                        cd "${FRAMEWORK_DIR}"
                         upload_intellij_xml_report "$REPORT_ID" "api"
                         upload_api_usage_log "$REPORT_ID"
                         generate_and_upload_allure_report "$REPORT_ID" "api"
