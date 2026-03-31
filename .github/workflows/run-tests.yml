@@ -153,6 +153,10 @@ on:
           - safety-smoke
           - safety-core
           - safety-driver-subset
+
+permissions:
+  contents: read
+  id-token: write
 jobs:
   resolve-suites:
     runs-on: ubuntu-latest
@@ -207,8 +211,7 @@ jobs:
       MOTIVE_TEST_REPORT_BUCKET: motive-automated-test-report
       REGION: ${{ github.event.inputs.region || 'us' }}
       AWS_REGION: us-east-1
-      HAS_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      HAS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
 
     steps:
       - name: Checkout Framework Repo
@@ -236,21 +239,21 @@ jobs:
           java-version: '17'
 
       - name: Configure AWS credentials
-        if: ${{ env.HAS_AWS_ACCESS_KEY_ID != '' && env.HAS_AWS_SECRET_ACCESS_KEY != '' }}
+        if: ${{ env.AWS_ROLE_ARN != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: automation-runner-${{ github.run_id }}
           aws-region: us-east-1
 
       - name: Prepare framework environment
         run: |
           echo "BASH_ENV=$GITHUB_WORKSPACE/framework/.ci/ci-test-helper.sh" >> "$GITHUB_ENV"
           source framework/.ci/ci-test-helper.sh
-          if [[ -n "${HAS_AWS_ACCESS_KEY_ID}" && -n "${HAS_AWS_SECRET_ACCESS_KEY}" ]]; then
+          if [[ -n "${AWS_ROLE_ARN}" ]]; then
             download_test_framework_settings "${{ github.event.inputs.environment || 'staging' }}" "${{ github.event.inputs.region || 'us' }}"
           else
-            echo "AWS credentials not configured in this repo; skipping download_test_framework_settings"
+            echo "AWS_ROLE_ARN is not configured in this repo/environment; skipping download_test_framework_settings"
           fi
 
       - name: Debug downloaded framework settings
