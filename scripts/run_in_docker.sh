@@ -27,7 +27,6 @@ docker run --rm \
     export FRAMEWORK_DIR="/opt/motive-testing-automationframework"
     export PROJECT_DIR="${FRAMEWORK_DIR}"
     export BASH_ENV="${FRAMEWORK_DIR}/.ci/ci-test-helper.sh"
-    source "${BASH_ENV}"
     /opt/automation-runner/scripts/generate_framework_env.sh
     if [[ -n "${AWS_ACCESS_KEY_ID:-}" && -n "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
       download_test_framework_settings "${ENVIRONMENT}" "${REGION}"
