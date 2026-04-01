@@ -190,8 +190,33 @@ jobs:
           echo "selection_label=${selection_label}" >> "$GITHUB_OUTPUT"
           echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
+  build-runtime-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Runner (This Repo)
+        uses: actions/checkout@v5
+
+      - name: Build test-runner image
+        run: |
+          docker build \
+            --build-arg GH_PAT="${{ secrets.GH_PAT }}" \
+            --build-arg FRAMEWORK_REF="${{ github.event.inputs.branch || 'master' }}" \
+            -t automation-runner:test-runtime .
+
+      - name: Save test-runner image
+        run: docker save automation-runner:test-runtime -o /tmp/automation-runner-test-runtime.tar
+
+      - name: Upload test-runner image
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-runner-test-runtime
+          path: /tmp/automation-runner-test-runtime.tar
+          retention-days: 1
+
   test:
-    needs: resolve-suites
+    needs:
+      - resolve-suites
+      - build-runtime-image
     name: "${{ matrix.label }}"
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
@@ -212,103 +237,10 @@ jobs:
       HAS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
-      - name: Checkout Framework Repo
-        uses: actions/checkout@v5
-        with:
-          repository: KeepTruckin/motive-testing-automationframework
-          token: ${{ secrets.GH_PAT }}
-          ref: ${{ github.event.inputs.branch || 'master' }}
-          path: framework
-
       - name: Checkout Runner (This Repo)
         uses: actions/checkout@v5
         with:
           path: runner-code
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Configure AWS credentials
-        if: ${{ env.HAS_AWS_ACCESS_KEY_ID != '' && env.HAS_AWS_SECRET_ACCESS_KEY != '' }}
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Prepare framework environment
-        run: |
-          echo "BASH_ENV=$GITHUB_WORKSPACE/framework/.ci/ci-test-helper.sh" >> "$GITHUB_ENV"
-          source framework/.ci/ci-test-helper.sh
-          if [[ -n "${HAS_AWS_ACCESS_KEY_ID}" && -n "${HAS_AWS_SECRET_ACCESS_KEY}" ]]; then
-            download_test_framework_settings "${{ github.event.inputs.environment || 'staging' }}" "${{ github.event.inputs.region || 'us' }}"
-          else
-            echo "AWS credentials not configured in this repo; skipping download_test_framework_settings"
-          fi
-
-      - name: Debug downloaded framework settings
-        run: |
-          settings_file="framework/gomotive-automation-framework/core/src/main/resources/testFrameworkSettings.${{ github.event.inputs.environment || 'staging' }}.json"
-          echo "Searching for framework settings files"
-          find framework \( -name '*.properties' -o -name '*.json' -o -name '*.yaml' -o -name '*.yml' \) | sort | sed -n '1,120p'
-          echo "Inspecting ${settings_file}"
-          if [[ -f "${settings_file}" ]]; then
-            grep -nE "env_motive_ai_eld_identifier|env_motive_safety1_vehicle_id|motive_ai_eld_identifier|motive_safety1_vehicle_id" "${settings_file}" || true
-          else
-            echo "Settings file not found during debug: ${settings_file}"
-          fi
-
-      - name: Validate downloaded framework settings
-        run: |
-          settings_file="framework/gomotive-automation-framework/core/src/main/resources/testFrameworkSettings.${{ github.event.inputs.environment || 'staging' }}.json"
-          if [[ ! -f "${settings_file}" ]]; then
-            echo "Expected framework settings file not found: ${settings_file}"
-            echo "This usually means download_test_framework_settings did not run or could not access AWS Secrets Manager."
-            exit 1
-          fi
-          echo "Found settings file: ${settings_file}"
-
-      - name: Generate framework .env
-        env:
-          MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
-          MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
-          MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
-          MOTIVE_DRIVER_EMAIL: ${{ secrets.MOTIVE_DRIVER_EMAIL }}
-          MOTIVE_DRIVER_PASSWORD: ${{ secrets.MOTIVE_DRIVER_PASSWORD }}
-          MOTIVE_ADMIN_CONSOLE_EMAIL: ${{ secrets.MOTIVE_ADMIN_CONSOLE_EMAIL }}
-          MOTIVE_ADMIN_CONSOLE_PASSWORD: ${{ secrets.MOTIVE_ADMIN_CONSOLE_PASSWORD }}
-          MOTIVE_ELDAPIKEY_STAGING: ${{ secrets.MOTIVE_ELDAPIKEY_STAGING }}
-          MOTIVE_MOBILEAPIAUTHORIZATIONKEY: ${{ secrets.MOTIVE_MOBILEAPIAUTHORIZATIONKEY }}
-          MOTIVE_TESTING_API_KEY_STAGING: ${{ secrets.MOTIVE_TESTING_API_KEY_STAGING }}
-          MOTIVE_INTERNAL_API_KEY_STAGING: ${{ secrets.MOTIVE_INTERNAL_API_KEY_STAGING }}
-          MOTIVE_AI_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_AI_DRIVER_EMAIL_ID }}
-          MOTIVE_AI_DRIVER_PASSWORD: ${{ secrets.MOTIVE_AI_DRIVER_PASSWORD }}
-          MOTIVE_AI_VEHICLE_ID: ${{ secrets.MOTIVE_AI_VEHICLE_ID }}
-          MOTIVE_AI_ELD_DEVICE_ID: ${{ secrets.MOTIVE_AI_ELD_DEVICE_ID }}
-          MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
-          MOTIVE_CAMERA_SERIALNUMBER: ${{ secrets.MOTIVE_CAMERA_SERIALNUMBER }}
-          MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
-          MOTIVE_SAFETY1_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY1_DRIVER_ID }}
-          MOTIVE_SAFETY1_DRIVER_EMAIL: ${{ secrets.MOTIVE_SAFETY1_DRIVER_EMAIL }}
-          MOTIVE_SAFETY1_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY1_DRIVER_PASSWORD }}
-          MOTIVE_SAFETY2_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY2_VEHICLE_ID }}
-          MOTIVE_SAFETY2_ELD_DEVICE_ID: ${{ secrets.MOTIVE_SAFETY2_ELD_DEVICE_ID }}
-          MOTIVE_SAFETY2_ELD_IDENTIFIER: ${{ secrets.MOTIVE_SAFETY2_ELD_IDENTIFIER }}
-          MOTIVE_SAFETY2_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_ID }}
-          MOTIVE_SAFETY2_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_EMAIL_ID }}
-          MOTIVE_SAFETY2_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY2_DRIVER_PASSWORD }}
-        run: |
-          export FRAMEWORK_DIR="${GITHUB_WORKSPACE}/framework"
-          export PROJECT_DIR="${FRAMEWORK_DIR}"
-          runner-code/scripts/generate_framework_env.sh
 
       - name: Validate required framework env values
         env:
@@ -364,38 +296,51 @@ jobs:
             exit 1
           fi
 
-      - name: Install SDKMAN and project env
-        run: |
-          cd framework
-          install_sdkman_env
+      - name: Download test-runner image
+        uses: actions/download-artifact@v4
+        with:
+          name: automation-runner-test-runtime
+          path: /tmp
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Load test-runner image
+        run: docker load -i /tmp/automation-runner-test-runtime.tar
 
-      - name: Make Framework Scripts Executable
-        run: |
-          chmod +x ${{ github.workspace }}/framework/gradlew
-
-      - name: Install dependencies
-        run: |
-          cd runner-code
-          pip install -r requirements.txt
-
-      - name: Run automation runner
-        run: |
-          cd runner-code
-          python runner.py "${{ github.event.inputs.environment || 'staging' }}" "${SELECTED_SUITE}"
+      - name: Run automation runner in Docker
         env:
+          RUNNER_IMAGE: automation-runner:test-runtime
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
-          AWS_REGION: us-east-1
-          PROJECT_DIR: ${{ github.workspace }}/framework
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          MOTIVE_ADMIN_EMAIL: ${{ secrets.MOTIVE_ADMIN_EMAIL }}
+          MOTIVE_ADMIN_PASSWORD: ${{ secrets.MOTIVE_ADMIN_PASSWORD }}
+          MOTIVE_WEBUSERNAMEPASSWORD: ${{ secrets.MOTIVE_WEBUSERNAMEPASSWORD }}
+          MOTIVE_DRIVER_EMAIL: ${{ secrets.MOTIVE_DRIVER_EMAIL }}
+          MOTIVE_DRIVER_PASSWORD: ${{ secrets.MOTIVE_DRIVER_PASSWORD }}
+          MOTIVE_ADMIN_CONSOLE_EMAIL: ${{ secrets.MOTIVE_ADMIN_CONSOLE_EMAIL }}
+          MOTIVE_ADMIN_CONSOLE_PASSWORD: ${{ secrets.MOTIVE_ADMIN_CONSOLE_PASSWORD }}
+          MOTIVE_ELDAPIKEY_STAGING: ${{ secrets.MOTIVE_ELDAPIKEY_STAGING }}
+          MOTIVE_MOBILEAPIAUTHORIZATIONKEY: ${{ secrets.MOTIVE_MOBILEAPIAUTHORIZATIONKEY }}
+          MOTIVE_TESTING_API_KEY_STAGING: ${{ secrets.MOTIVE_TESTING_API_KEY_STAGING }}
+          MOTIVE_INTERNAL_API_KEY_STAGING: ${{ secrets.MOTIVE_INTERNAL_API_KEY_STAGING }}
+          MOTIVE_AI_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_AI_DRIVER_EMAIL_ID }}
+          MOTIVE_AI_DRIVER_PASSWORD: ${{ secrets.MOTIVE_AI_DRIVER_PASSWORD }}
+          MOTIVE_AI_VEHICLE_ID: ${{ secrets.MOTIVE_AI_VEHICLE_ID }}
+          MOTIVE_AI_ELD_DEVICE_ID: ${{ secrets.MOTIVE_AI_ELD_DEVICE_ID }}
+          MOTIVE_AI_ELD_IDENTIFIER: ${{ secrets.MOTIVE_AI_ELD_IDENTIFIER }}
+          MOTIVE_CAMERA_SERIALNUMBER: ${{ secrets.MOTIVE_CAMERA_SERIALNUMBER }}
+          MOTIVE_SAFETY1_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY1_VEHICLE_ID }}
+          MOTIVE_SAFETY1_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY1_DRIVER_ID }}
+          MOTIVE_SAFETY1_DRIVER_EMAIL: ${{ secrets.MOTIVE_SAFETY1_DRIVER_EMAIL }}
+          MOTIVE_SAFETY1_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY1_DRIVER_PASSWORD }}
+          MOTIVE_SAFETY2_VEHICLE_ID: ${{ secrets.MOTIVE_SAFETY2_VEHICLE_ID }}
+          MOTIVE_SAFETY2_ELD_DEVICE_ID: ${{ secrets.MOTIVE_SAFETY2_ELD_DEVICE_ID }}
+          MOTIVE_SAFETY2_ELD_IDENTIFIER: ${{ secrets.MOTIVE_SAFETY2_ELD_IDENTIFIER }}
+          MOTIVE_SAFETY2_DRIVER_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_ID }}
+          MOTIVE_SAFETY2_DRIVER_EMAIL_ID: ${{ secrets.MOTIVE_SAFETY2_DRIVER_EMAIL_ID }}
+          MOTIVE_SAFETY2_DRIVER_PASSWORD: ${{ secrets.MOTIVE_SAFETY2_DRIVER_PASSWORD }}
           SELECTED_SUITE: ${{ matrix.target }}
-
-      - name: Upload reports on s3
-        if: always()
         run: |
-          report_id=$(date +%s)
-          upload_intellij_xml_report "$report_id" "api"
-          upload_api_usage_log "$report_id"
-          generate_and_upload_allure_report "$report_id" "api"
+          chmod +x runner-code/scripts/run_in_docker.sh
+          runner-code/scripts/run_in_docker.sh
