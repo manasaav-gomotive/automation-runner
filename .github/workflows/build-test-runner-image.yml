@@ -16,24 +16,37 @@ on:
         description: Optional image tag override
         required: false
         default: ""
-      artifact_branch:
-        description: Branch that stores the latest Docker tarball
-        required: true
-        default: docker-latest
-
-permissions:
-  contents: write
 
 jobs:
-  build-and-publish-tar:
+  build-and-push:
     runs-on: ubuntu-latest
+    environment: staging
+    env:
+      AWS_REGION: us-east-1
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY || 'automation-runner-test-runtime' }}
     steps:
       - name: Checkout Runner (This Repo)
         uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch || 'automation_runner' }}
 
-      - name: Compute image metadata
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Ensure ECR repository exists
+        run: |
+          aws ecr describe-repositories --repository-names "${ECR_REPOSITORY}" >/dev/null 2>&1 || \
+          aws ecr create-repository --repository-name "${ECR_REPOSITORY}" >/dev/null
+
+      - name: Compute image tags
         id: meta
         run: |
           short_sha="${GITHUB_SHA::12}"
@@ -44,59 +57,24 @@ jobs:
           else
             image_tag="${branch_slug}-${short_sha}"
           fi
-          echo "image_tag=${image_tag}" >> "$GITHUB_OUTPUT"
+          registry="${{ steps.login-ecr.outputs.registry }}"
+          image_uri="${registry}/${ECR_REPOSITORY}:${image_tag}"
+          latest_uri="${registry}/${ECR_REPOSITORY}:latest"
+          echo "image_uri=${image_uri}" >> "$GITHUB_OUTPUT"
+          echo "latest_uri=${latest_uri}" >> "$GITHUB_OUTPUT"
 
-      - name: Build test-runner image
+      - name: Build and push image
         run: |
           docker build \
             --build-arg GH_PAT="${{ secrets.GH_PAT }}" \
             --build-arg FRAMEWORK_REF="${{ github.event.inputs.framework_ref || 'master' }}" \
-            -t "automation-runner:${{ steps.meta.outputs.image_tag }}" \
+            -t "${{ steps.meta.outputs.image_uri }}" \
+            -t "${{ steps.meta.outputs.latest_uri }}" \
             .
+          docker push "${{ steps.meta.outputs.image_uri }}"
+          docker push "${{ steps.meta.outputs.latest_uri }}"
 
-      - name: Save and compress image tarball
+      - name: Print image summary
         run: |
-          docker save "automation-runner:${{ steps.meta.outputs.image_tag }}" | gzip -c > /tmp/automation-runner-image.tar.gz
-
-      - name: Write image manifest
-        run: |
-          cat > /tmp/manifest.json <<EOF
-          {
-            "image_tag": "${{ steps.meta.outputs.image_tag }}",
-            "source_branch": "${{ github.event.inputs.branch || 'automation_runner' }}",
-            "framework_ref": "${{ github.event.inputs.framework_ref || 'master' }}",
-            "artifact_branch": "${{ github.event.inputs.artifact_branch || 'docker-latest' }}",
-            "commit_sha": "${GITHUB_SHA}",
-            "created_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-          }
-          EOF
-
-      - name: Publish tarball to artifact branch
-        env:
-          ARTIFACT_BRANCH: ${{ github.event.inputs.artifact_branch || 'docker-latest' }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          publish_dir="$(mktemp -d)"
-          cp /tmp/automation-runner-image.tar.gz "${publish_dir}/automation-runner-image.tar.gz"
-          cp /tmp/manifest.json "${publish_dir}/manifest.json"
-          cat > "${publish_dir}/README.md" <<EOF
-          # Docker Image Artifact Branch
-
-          This branch is force-updated by GitHub Actions and stores the latest Docker image tarball for the test runner workflow.
-          EOF
-
-          cd "${publish_dir}"
-          git init
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout --orphan "${ARTIFACT_BRANCH}"
-          git add automation-runner-image.tar.gz manifest.json README.md
-          git commit -m "Update docker image tarball (${GITHUB_SHA::12})"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push --force origin HEAD:"${ARTIFACT_BRANCH}"
-
-      - name: Print artifact summary
-        run: |
-          echo "Published branch: ${{ github.event.inputs.artifact_branch || 'docker-latest' }}"
-          echo "Image tag: ${{ steps.meta.outputs.image_tag }}"
-          echo "Tarball: automation-runner-image.tar.gz"
+          echo "Pushed image: ${{ steps.meta.outputs.image_uri }}"
+          echo "Updated latest: ${{ steps.meta.outputs.latest_uri }}"
